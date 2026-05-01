@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Page</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h2>Checkout</h2>
+
+    <div id="checkoutWrapper"></div>
+
+    <div class="coupon-section">
+        <input type="text" id="couponInput" placeholder="Enter your coupon code" />
+        <button id="applyCoupon">Apply</button>
+    </div>
+
+    <div id="finalSummary"></div>
+
+
+    <div class="shipping-form">
+        <h3>Shipping Details</h3>
+
+        <label>Receiver's Name</label>
+        <input type="text" id="receiverName" placeholder="Full name" />
+
+        <label>Email</label>
+        <input type="email" id="email" placeholder="your@email.com" />
+
+        <label>Mobile Number</label>
+        <input type="tel" id="mobile" placeholder="10-digit number" maxlength="10" />
+
+        <label>Delivery Address</label>
+        <textarea id="address" rows="3" placeholder="House no., Street, City, Pincode"></textarea>
+
+        <p id="formError"></p>
+
+        <button id="placeOrder">Place Order</button>
+    </div>
+    <script src="checkout.js"></script>
+</body>
+</html>

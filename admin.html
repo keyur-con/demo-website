@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="admin-page">
+    <div class="admin-header">
+        <h2>Admin Panel</h2>
+        <button id="backButton" class="top-btn" type="button">Back to Products</button>
+    </div>
+
+    <section class="admin-products-section">
+        <h3>Existing Products</h3>
+        <div id="adminWrapper"></div>
+    </section>
+
+    <section class="admin-orders-section">
+        <div class="admin-orders-header">
+            <h3>Customer Orders</h3>
+            <button id="fetchOrdersBtn">View All Orders</button>
+        </div>
+
+        <div id="ordersWrapper"></div>
+    </section>
+
+    <section class="admin-form">
+        <h3>Add New Product</h3>
+        <input id="title" placeholder="Title" />
+        <input id="price" type="number" placeholder="Price" />
+        <input id="description" placeholder="Description" />
+        <input id="category" placeholder="Category" />
+        <input id="image" placeholder="Image URL" />
+
+        <!-- Rating fields -->
+        <input id="rate" type="number" step="0.1" placeholder="Rating (0-5)" />
+        <input id="count" type="number" placeholder="Rating Count" />
+
+        <button id="addProduct">Add Product</button>
+
+        <p id="msg"></p>
+    </section>
+
+    <script src="admin.js"></script>
+</body>
+</html>
