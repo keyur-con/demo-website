@@ -1,6 +1,8 @@
 const isLoggedIn = localStorage.getItem("isLoggedIn");
 const user = localStorage.getItem("user");
 
+let allProducts = [];
+
 if (isLoggedIn !== "true" || !user) {
     window.location.href = "login.html";
 }
@@ -33,98 +35,164 @@ if (role === "admin") {
     document.body.appendChild(adminBtn);
 }
 
-class Cart{
-    constructor(){
-        let savedCart;
+// class Cart{
+//     constructor(){
+//         let savedCart;
 
-        try {
-            const currentUser = localStorage.getItem("user");
-            savedCart = JSON.parse(localStorage.getItem(`cart_${currentUser}`));
-        } catch (err) {
-            savedCart = null;
-        }
+//         try {
+//             const currentUser = localStorage.getItem("user");
+//             savedCart = JSON.parse(localStorage.getItem(`cart_${currentUser}`));
+//         } catch (err) {
+//             savedCart = null;
+//         }
 
-        this.items = Array.isArray(savedCart) ? savedCart : [];
-        this.discount = 0;
-    }
+//         this.items = Array.isArray(savedCart) ? savedCart : [];
+//         this.discount = 0;
+//     }
   
-    async addProduct(product){
-        try{
+//     async addProduct(product){
+//         try{
             
-            const existing = this.items.find(item => item.id === product.id);
-            if(existing){
-                existing.quantity += 1;
-            }
-            else{
-                this.items.push({...product,quantity : 1});
-            }
-            console.log("Product id : " + product.id + " added in the cart.");
-        }
-        catch(err){
-            console.log("Error ; ",err);
-        }
+//             const existing = this.items.find(item => item.id === product.id);
+//             if(existing){
+//                 existing.quantity += 1;
+//             }
+//             else{
+//                 this.items.push({...product,quantity : 1});
+//             }
+//             console.log("Product id : " + product.id + " added in the cart.");
+//         }
+//         catch(err){
+//             console.log("Error ; ",err);
+//         }
 
-        this.saveCart();
-    }
+//         this.saveCart();
+//     }
     
-    decreaseProduct(product){
-        const item = this.items.find(i => i.id === product.id);
-        if(!item){
-            console.log("product is not in the cart.");
-            return;
-        }
-        if (item.quantity > 1){
-            item.quantity -= 1;
-        }
-        else{
-            this.items = this.items.filter(i => i.id !== product.id);
-        }
-        console.log("Product id : " + item.id + " removed from the cart.");
+//     decreaseProduct(product){
+//         const item = this.items.find(i => i.id === product.id);
+//         if(!item){
+//             console.log("product is not in the cart.");
+//             return;
+//         }
+//         if (item.quantity > 1){
+//             item.quantity -= 1;
+//         }
+//         else{
+//             this.items = this.items.filter(i => i.id !== product.id);
+//         }
+//         console.log("Product id : " + item.id + " removed from the cart.");
 
-        this.saveCart();
-    }
+//         this.saveCart();
+//     }
 
-    deleteProduct(product){
-        this.items = this.items.filter(i => i.id !== product.id);
-        console.log("Product id : " + product.id + " deleted from the cart.");
-        this.saveCart();
+//     deleteProduct(product){
+//         this.items = this.items.filter(i => i.id !== product.id);
+//         console.log("Product id : " + product.id + " deleted from the cart.");
+//         this.saveCart();
         
-    }
+//     }
     
-    applyDiscount(percent){
-        if(percent < 0 || percent > 100){
-            console.log("Invalid discount");
-            return;
-        }
-        this.discount = percent ;
-        console.log(`Discount applied : ${percent}%`);
-    }
+//     applyDiscount(percent){
+//         if(percent < 0 || percent > 100){
+//             console.log("Invalid discount");
+//             return;
+//         }
+//         this.discount = percent ;
+//         console.log(`Discount applied : ${percent}%`);
+//     }
     
-    getTotal(){
-        const total = this.items.reduce((acc,item) => acc + item.price * item.quantity,0);
-        const discountAmount = (total * this.discount)/100;
-        return {
-            total,
-            discount: this.discount,
-            discountAmount,
-            finalAmount: total - discountAmount
-        };
-    }
+//     getTotal(){
+//         const total = this.items.reduce((acc,item) => acc + item.price * item.quantity,0);
+//         const discountAmount = (total * this.discount)/100;
+//         return {
+//             total,
+//             discount: this.discount,
+//             discountAmount,
+//             finalAmount: total - discountAmount
+//         };
+//     }
     
-    getItemcount(){
-        return this.items.reduce((acc,item) => acc + item.quantity,0);
-    }
+//     getItemcount(){
+//         return this.items.reduce((acc,item) => acc + item.quantity,0);
+//     }
     
-    clearCart() {
+//     clearCart() {
+//         this.items = [];
+//         this.discount = 0;
+        
+//         const currentUser = localStorage.getItem("user");
+//         localStorage.removeItem(`cart_${currentUser}`);
+//     }
+//     saveCart(){
+//         const currentUser = localStorage.getItem("user");
+//         localStorage.setItem(`cart_${currentUser}`, JSON.stringify(this.items));
+//     }
+// }
+
+const userId = localStorage.getItem("userId");
+
+class Cart {
+    constructor() {
         this.items = [];
         this.discount = 0;
-        
-        const currentUser = localStorage.getItem("user");
-        localStorage.removeItem(`cart_${currentUser}`);
     }
-    saveCart(){
-        const currentUser = localStorage.getItem("user");
-        localStorage.setItem(`cart_${currentUser}`, JSON.stringify(this.items));
+
+    async loadCart() {
+        const res = await fetch(`http://localhost:3000/cart/${userId}`);
+        const data = await res.json();
+
+        // server stores { productId, qty }
+        // we need to match with allProducts to get full product details
+        this.items = data.items.map(item => {
+            const product = allProducts.find(p => p.id === item.productId);
+            if (!product) return null;
+            return { ...product, quantity: item.qty };
+        }).filter(Boolean); // remove any nulls
+    }
+
+    async addProduct(product) {
+        await fetch("http://localhost:3000/cart", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId, productId: product.id, qty: 1 })
+        });
+        await this.loadCart();
+    }
+
+    async decreaseProduct(product) {
+        const existing = this.items.find(i => i.id === product.id);
+        if (!existing) return;
+
+        if (existing.quantity > 1) {
+            await fetch("http://localhost:3000/cart", {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId, productId: product.id, qty: existing.quantity - 1 })
+            });
+        } else {
+            await fetch("http://localhost:3000/cart", {
+                method: "DELETE",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userId, productId: product.id })
+            });
+        }
+        await this.loadCart();
+    }
+
+    async deleteProduct(product) {
+        await fetch("http://localhost:3000/cart", {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ userId, productId: product.id })
+        });
+        await this.loadCart();
+    }
+
+    getTotal() {
+        const total = this.items.reduce((acc, item) => acc + item.price * item.quantity, 0);
+        const discountAmount = (total * this.discount) / 100;
+        return { total, discount: this.discount, discountAmount, finalAmount: total - discountAmount };
     }
 }
 
@@ -133,21 +201,16 @@ const productWrapper = document.getElementById("productWrapper");
 async function fetchProducts() {
     try {
         const res = await fetch("http://localhost:3000/products");
-        const data = await res.json();
-
-        renderProducts(data);
+        allProducts = await res.json();
+        renderProducts(allProducts);
     } catch (err) {
         console.log("Error fetching products");
     }
 }
 
-window.addEventListener("storage", (e) => {
-    if (e.key === "products_updated") {
-        fetchProducts(); // auto refresh products
-    }
-});
 
-fetchProducts();
+
+//fetchProducts();
 
 function renderProducts(products){
     productWrapper.innerHTML = "";
@@ -165,7 +228,7 @@ function renderProducts(products){
         const button = card.querySelector(".add-btn");
 
         button.addEventListener("click", async () => {
-            cart.addProduct(product);
+            await cart.addProduct(product);
             renderCart(cart);
         });
 
@@ -179,22 +242,20 @@ const cart = new Cart();
 
 const cartWrapper = document.getElementById("cartWrapper");
 
-window.addEventListener("storage", (e) => {
-    if (e.key && e.key.startsWith("cart_")) {
-        const currentUser = localStorage.getItem("user");
-        cart.items = JSON.parse(localStorage.getItem(`cart_${currentUser}`)) || [];
-        
-        renderCart(cart);
-    }
-});
+(async () => {
+    await fetchProducts();
+    await cart.loadCart();
+    renderCart(cart);
+})();
 
-renderCart(cart);
+
+
+//renderCart(cart);
 
 async function renderCart(cart) {
     cartWrapper.innerHTML = "";
 
-    const res = await fetch("http://localhost:3000/products");
-    const products = await res.json();
+    
 
     if (!cart.items || cart.items.length === 0) {
         cartWrapper.innerHTML = `<div class="empty-cart">Your Cart is Empty</div>`;
@@ -203,7 +264,7 @@ async function renderCart(cart) {
 
     cart.items.forEach(item => {
 
-        const exists = products.find(p => p.id === item.id);
+        const exists = allProducts.find(p => p.id === item.id);
 
         const itemElement = document.createElement("div");
         itemElement.style.position = "relative";
@@ -257,47 +318,35 @@ async function renderCart(cart) {
     checkoutBtn.innerText = "Proceed to Checkout";
     checkoutBtn.className = "checkout-btn";
 
-    checkoutBtn.addEventListener("click", async () => {
-        const res = await fetch("http://localhost:3000/products");
-        const products = await res.json();
-
-        const hasUnavailable = cart.items.some(item =>
-            !products.some(p => p.id === item.id)
-        );
-
-        if (hasUnavailable) {
-            alert("Cart has items that are not available.");
-            return;
-        }
-
-        window.location.href = "checkout.html";
-    });
+    checkoutBtn.addEventListener("click", () => {
+    const hasUnavailable = cart.items.some(item =>
+        !allProducts.some(p => p.id === item.id)
+    );
+    if (hasUnavailable) {
+        alert("Cart has items that are not available.");
+        return;
+    }
+    window.location.href = "checkout.html";
+});
 
     cartWrapper.appendChild(checkoutBtn);
 }
 
-cartWrapper.addEventListener("click", (e) => {
-    const button = e.target.closest("button"); 
-
+cartWrapper.addEventListener("click", async (e) => {
+    const button = e.target.closest("button");
     if (!button) return;
 
     const id = Number(button.dataset.id);
-
     const product = cart.items.find(i => i.id === id);
-
     if (!product) return;
 
-    if (button.classList.contains("increase")) {
-        cart.addProduct(product);
-    }
+    // disable button while request is in progress
+    button.disabled = true;
 
-    if (button.classList.contains("decrease")) {
-        cart.decreaseProduct(product);
-    }
+    if (button.classList.contains("increase")) await cart.addProduct(product);
+    if (button.classList.contains("decrease")) await cart.decreaseProduct(product);
+    if (button.classList.contains("remove-btn")) await cart.deleteProduct(product);
 
-    if (button.classList.contains("remove-btn")) {
-        cart.deleteProduct(product);
-    }
-
+    // only render AFTER the await completes
     renderCart(cart);
 });

@@ -16,9 +16,9 @@ form.addEventListener("submit", (e) => {
     const password = document.getElementById("password").value;
 
     const users = [
-        { username: "admin", password: "1234" , role: "admin" },
-        { username: "user1", password: "1234@user1" , role: "user" },
-        { username: "user2", password: "1234@user2" , role: "user" }
+        { username: "admin", password: "1234" , role: "admin" , userId: 0},
+        { username: "user1", password: "1234@user1" , role: "user" , userId: 1 },
+        { username: "user2", password: "1234@user2" , role: "user" , userId: 2 },
     ];
     
     const validUser = users.find(
@@ -29,6 +29,7 @@ form.addEventListener("submit", (e) => {
         localStorage.setItem("isLoggedIn", "true");
         localStorage.setItem("user", username);
         localStorage.setItem("role", validUser.role);
+        localStorage.setItem("userId", validUser.userId);
 
         window.location.href = "index.html";
     }

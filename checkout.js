@@ -5,9 +5,30 @@ if (localStorage.getItem("isLoggedIn") !== "true") {
 const checkoutWrapper = document.getElementById("checkoutWrapper");
 const finalSummary = document.getElementById("finalSummary");
 
-const currentUser = localStorage.getItem("user");
-let cartData = JSON.parse(localStorage.getItem(`cart_${currentUser}`)) || [];
+const userName = localStorage.getItem("user");
+const userId = localStorage.getItem("userId");
+let cartData = [];
+let allProducts = [];
 let discount = 0;
+
+async function loadCheckoutData() {
+    // get products
+    const prodRes = await fetch("http://localhost:3000/products");
+    allProducts = await prodRes.json();
+
+    // get cart
+    const cartRes = await fetch(`http://localhost:3000/cart/${userId}`);
+    const cart = await cartRes.json();
+
+    // map productId → full product
+    cartData = cart.items.map(item => {
+        const product = allProducts.find(p => p.id === item.productId);
+        if (!product) return null;
+        return { ...product, quantity: item.qty };
+    }).filter(Boolean);
+
+    renderCheckout();
+}
 
 function renderCheckout(){
     checkoutWrapper.innerHTML = "";
@@ -85,9 +106,9 @@ function updateSummary(){
 }
 
 
-renderCheckout();
+loadCheckoutData();
 
-document.getElementById("placeOrder").addEventListener("click", () => {
+document.getElementById("placeOrder").addEventListener("click", async () => {
 
     const name = document.getElementById("receiverName").value.trim();
     const email = document.getElementById("email").value.trim();
@@ -97,7 +118,7 @@ document.getElementById("placeOrder").addEventListener("click", () => {
 
     error1.textContent = "";
 
-    if(!name || !email || !mobile || !address){
+    if(!receiverName || !email || !mobile || !address){
         error1.textContent = "Please fill in all the fields.";
         return;
     }
@@ -114,33 +135,46 @@ document.getElementById("placeOrder").addEventListener("click", () => {
     console.log("All good! Ready to save the order.");
 
     const order = {
-        name,
-        email,
-        mobile,
-        address,
-        items: cartData
-    };
+    userId,
+    userName,              // 👈 NEW (account user)
+    receiverName: name,    // 👈 rename this
+    email,
+    mobile,
+    address,
+    discount,
+    items: cartData.map(item => ({
+        productId: item.id,
+        qty: item.quantity
+    }))
+};
 
-    fetch("http://localhost:3000/checkout", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(order)
-    })
-    .then(res => res.json())
-    .then(data => {
+    try {
+        const res = await fetch("http://localhost:3000/checkout", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(order)
+        });
+
+        const data = await res.json();
+
         if (data.success) {
-            localStorage.removeItem(`cart_${currentUser}`);
+            await fetch(`http://localhost:3000/cart/clear/${userId}`, {
+                method: "DELETE"
+            });
+
             alert("Order placed! Your Order ID is: " + data.order.orderId);
             window.location.href = "index.html";
         } else {
             document.getElementById("formError").innerText = data.message;
         }
-    })
-    .catch(err => {
-        document.getElementById("formError").innerText = "Could not connect to server. Make sure backend is running.";
-    });
+
+    } catch (err) {
+        document.getElementById("formError").innerText =
+            "Could not connect to server. Make sure backend is running.";
+    }
+    
 
     // const order = {
     //     orderId: "ORD-" + Date.now(),
