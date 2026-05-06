@@ -7,7 +7,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const orders = [];
 const fs = require("fs");
 const path = require("path");
 const cartsFilePath = path.join(__dirname, "carts.json");
@@ -71,7 +70,7 @@ app.post("/checkout", (req, res) => {
         return res.status(400).json({ success: false, message: "All fields required" });
     }
 
-    const products = readProducts(); // already built earlier
+    const products = readProducts(); 
     const orderItems = [];
 
     let totalAmount = 0;
@@ -89,12 +88,13 @@ app.post("/checkout", (req, res) => {
             productId: product.id,
             title: product.title,
             price: product.price,
+            image: product.image,
             qty: item.qty,
             total: itemTotal
         });
     });
 
-    const discountAmount = (totalAmount * discount) / 100;
+    const discountAmount = ((totalAmount * discount) / 100).toFixed(2);
     const finalAmount = totalAmount - discountAmount;
 
     const newOrder = {
@@ -132,6 +132,16 @@ app.get("/orders", (req, res) => {
 
     const db = readOrders();
     res.json(db.orders);
+});
+
+app.get("/orders/:userId", (req, res) => {
+    const { userId } = req.params;
+
+    const db = readOrders();
+
+    const userOrders = db.orders.filter(order => order.userId == userId);
+
+    res.json(userOrders);
 });
 
 app.get("/products", (req, res) => {

@@ -35,100 +35,15 @@ if (role === "admin") {
     document.body.appendChild(adminBtn);
 }
 
-// class Cart{
-//     constructor(){
-//         let savedCart;
+const ordersBtn = document.createElement("button");
+ordersBtn.innerText = "View Orders";
+ordersBtn.classList.add("orders-btn");
 
-//         try {
-//             const currentUser = localStorage.getItem("user");
-//             savedCart = JSON.parse(localStorage.getItem(`cart_${currentUser}`));
-//         } catch (err) {
-//             savedCart = null;
-//         }
+ordersBtn.addEventListener("click", () => {
+    window.location.href = "orders.html";
+});
 
-//         this.items = Array.isArray(savedCart) ? savedCart : [];
-//         this.discount = 0;
-//     }
-  
-//     async addProduct(product){
-//         try{
-            
-//             const existing = this.items.find(item => item.id === product.id);
-//             if(existing){
-//                 existing.quantity += 1;
-//             }
-//             else{
-//                 this.items.push({...product,quantity : 1});
-//             }
-//             console.log("Product id : " + product.id + " added in the cart.");
-//         }
-//         catch(err){
-//             console.log("Error ; ",err);
-//         }
-
-//         this.saveCart();
-//     }
-    
-//     decreaseProduct(product){
-//         const item = this.items.find(i => i.id === product.id);
-//         if(!item){
-//             console.log("product is not in the cart.");
-//             return;
-//         }
-//         if (item.quantity > 1){
-//             item.quantity -= 1;
-//         }
-//         else{
-//             this.items = this.items.filter(i => i.id !== product.id);
-//         }
-//         console.log("Product id : " + item.id + " removed from the cart.");
-
-//         this.saveCart();
-//     }
-
-//     deleteProduct(product){
-//         this.items = this.items.filter(i => i.id !== product.id);
-//         console.log("Product id : " + product.id + " deleted from the cart.");
-//         this.saveCart();
-        
-//     }
-    
-//     applyDiscount(percent){
-//         if(percent < 0 || percent > 100){
-//             console.log("Invalid discount");
-//             return;
-//         }
-//         this.discount = percent ;
-//         console.log(`Discount applied : ${percent}%`);
-//     }
-    
-//     getTotal(){
-//         const total = this.items.reduce((acc,item) => acc + item.price * item.quantity,0);
-//         const discountAmount = (total * this.discount)/100;
-//         return {
-//             total,
-//             discount: this.discount,
-//             discountAmount,
-//             finalAmount: total - discountAmount
-//         };
-//     }
-    
-//     getItemcount(){
-//         return this.items.reduce((acc,item) => acc + item.quantity,0);
-//     }
-    
-//     clearCart() {
-//         this.items = [];
-//         this.discount = 0;
-        
-//         const currentUser = localStorage.getItem("user");
-//         localStorage.removeItem(`cart_${currentUser}`);
-//     }
-//     saveCart(){
-//         const currentUser = localStorage.getItem("user");
-//         localStorage.setItem(`cart_${currentUser}`, JSON.stringify(this.items));
-//     }
-// }
+document.body.appendChild(ordersBtn);
 
 const userId = localStorage.getItem("userId");
 
@@ -142,8 +57,7 @@ class Cart {
         const res = await fetch(`http://localhost:3000/cart/${userId}`);
         const data = await res.json();
 
-        // server stores { productId, qty }
-        // we need to match with allProducts to get full product details
+        
         this.items = data.items.map(item => {
             const product = allProducts.find(p => p.id === item.productId);
             if (!product) return null;
@@ -339,14 +253,12 @@ cartWrapper.addEventListener("click", async (e) => {
     const id = Number(button.dataset.id);
     const product = cart.items.find(i => i.id === id);
     if (!product) return;
-
-    // disable button while request is in progress
+    
     button.disabled = true;
 
     if (button.classList.contains("increase")) await cart.addProduct(product);
     if (button.classList.contains("decrease")) await cart.decreaseProduct(product);
     if (button.classList.contains("remove-btn")) await cart.deleteProduct(product);
 
-    // only render AFTER the await completes
     renderCart(cart);
 });

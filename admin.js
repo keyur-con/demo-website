@@ -129,7 +129,7 @@ document.getElementById("adminWrapper").addEventListener("click", async (e) => {
             method: "DELETE"
         });
 
-        renderAdminProducts(); // refresh after delete
+        renderAdminProducts(); 
     }
 });
 

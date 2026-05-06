@@ -12,15 +12,15 @@ let allProducts = [];
 let discount = 0;
 
 async function loadCheckoutData() {
-    // get products
+    
     const prodRes = await fetch("http://localhost:3000/products");
     allProducts = await prodRes.json();
 
-    // get cart
+    
     const cartRes = await fetch(`http://localhost:3000/cart/${userId}`);
     const cart = await cartRes.json();
 
-    // map productId → full product
+    
     cartData = cart.items.map(item => {
         const product = allProducts.find(p => p.id === item.productId);
         if (!product) return null;
@@ -135,18 +135,18 @@ document.getElementById("placeOrder").addEventListener("click", async () => {
     console.log("All good! Ready to save the order.");
 
     const order = {
-    userId,
-    userName,              // 👈 NEW (account user)
-    receiverName: name,    // 👈 rename this
-    email,
-    mobile,
-    address,
-    discount,
-    items: cartData.map(item => ({
-        productId: item.id,
-        qty: item.quantity
-    }))
-};
+        userId,
+        userName,              
+        receiverName: name,    
+        email,
+        mobile,
+        address,
+        discount,
+        items: cartData.map(item => ({
+            productId: item.id,
+            qty: item.quantity
+        }))
+    };
 
     try {
         const res = await fetch("http://localhost:3000/checkout", {
@@ -176,21 +176,5 @@ document.getElementById("placeOrder").addEventListener("click", async () => {
     }
     
 
-    // const order = {
-    //     orderId: "ORD-" + Date.now(),
-    //     placedBy: currentUser,
-    //     name,
-    //     email,
-    //     mobile,
-    //     address,
-    //     items: cartData,
-    //     total: cartData.reduce((acc, item) => acc + item.price * item.quantity, 0)
-    // };
-
-    // const existingOrders = JSON.parse(localStorage.getItem("orders")) || [];
-    // existingOrders.push(order);
-    // localStorage.setItem("orders", JSON.stringify(existingOrders));
-    // localStorage.removeItem(`cart_${currentUser}`);
-    // alert("Order placed! Order ID: " + order.orderId);
-    // window.location.href = "index.html";
+    
 });
