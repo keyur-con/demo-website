@@ -205,9 +205,18 @@ body.admin-page #addProduct:hover {
   transform: translateY(-1px);
 }
 
+.admin-orders-header{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px; /* space between button & title */
+    margin: 20px 0px;
+}
+
 #mainWrapper {
   display: grid;
   grid-template-columns: 2.2fr 1fr;
+  align-items: start;
   gap: 22px;
   max-width: 1240px;
   margin: 0 auto;
@@ -238,6 +247,8 @@ body.admin-page #addProduct:hover {
   gap: 16px;
   padding: 24px;
   min-height: 420px;
+       
+  overflow-y: auto;
 }
 
 .product-card {
@@ -300,6 +311,13 @@ body.admin-page #addProduct:hover {
   display: flex;
   flex-direction: column;
   gap: 8px;
+  max-width: 120px;
+  overflow: hidden;
+}
+
+.cart-info h4 {
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 .cart-info h4,
@@ -587,7 +605,7 @@ h2 {
 .admin-btn {
    position: absolute;
     top: 26px;
-    right: 140px;
+    left: 140px;
     padding: 12px 24px;
     border: none;
     border-radius: 20px;
@@ -704,4 +722,83 @@ h2 {
     opacity: 0.6;
     cursor: not-allowed;
     transform: none;
+}
+
+.orders-btn{
+    position: absolute;
+    top: 26px;
+    right: 150px;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #4b45d8, #43bd96);
+    color: #fff;
+    font-weight: 600;
+    font-size: 14px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(216, 69, 69, 0.25);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+.order-card {
+    border: 1px solid #ddd;
+    padding: 12px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    background: #fff;
+}
+
+.order-header {
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.order-item {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.order-img {
+    width: 60px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.order-info {
+    flex: 1;
+}
+
+.order-summary {
+    margin-top: 10px;
+    font-weight: 500;
+}
+
+.orders-header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px; /* space between button & title */
+    margin: 20px 0px;
+}
+
+.orders-title {
+    margin: 0; /* removes default h2 spacing */
+}
+
+.back-btn {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    margin: 10px;
+    padding: 8px 16px;
+    background-color: black;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 6px;
+}
+
+.back-btn:hover {
+    opacity: 0.8;
 }

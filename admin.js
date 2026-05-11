@@ -129,7 +129,7 @@ document.getElementById("adminWrapper").addEventListener("click", async (e) => {
             method: "DELETE"
         });
 
-        renderAdminProducts(); // refresh after delete
+        renderAdminProducts(); 
     }
 });
 
@@ -161,21 +161,29 @@ document.getElementById("fetchOrdersBtn").addEventListener("click", () => {
             const itemsHTML = order.items.map(item => `
                 <div class="order-item">
                     <p><strong>${item.title}</strong></p>
-                    <p>Qty: ${item.quantity}</p>
+                    <p>Qty: ${item.qty}</p>
                     <p>Price: ₹${item.price}</p>
-                    <p>Total: ₹${(item.price * item.quantity).toFixed(2)}</p>
+                    <p>Total: ₹${(item.price * item.qty).toFixed(2)}</p>
                 </div>
             `).join("");
 
             div.innerHTML = `
                 <p><strong>Order ID:</strong> ${order.orderId}</p>
-                <p><strong>Name:</strong> ${order.name}</p>
+                <p><strong>Account User:</strong> ${order.userName || "N/A" }</p>
+                <p><strong>Deliver To:</strong> ${order.receiverName || order.name}</p>
                 <p><strong>Email:</strong> ${order.email}</p>
                 <p><strong>Mobile:</strong> ${order.mobile}</p>
                 <p><strong>Address:</strong> ${order.address}</p>
 
                 <p><strong>Items:</strong></p>
+                
                 ${itemsHTML}
+
+                <hr>
+
+                <p><strong>Total Amount:</strong> ₹${order.totalAmount.toFixed(2)}</p>
+                <p><strong>Discount:</strong> ${order.discount}%</p>
+                <p><strong>Final Amount:</strong> ₹${order.finalAmount.toFixed(2)}</p>
                 <hr/>
             `;
             wrapper.appendChild(div);
