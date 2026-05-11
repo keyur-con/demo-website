@@ -1,5 +1,12 @@
+const fs = require("fs");
+const path = require("path");
+
 const express = require('express');
 const cors = require('cors');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const SECRET = "mysecret123";
 // const products = require("./products.json");
 
 const app = express();
@@ -7,11 +14,11 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const fs = require("fs");
-const path = require("path");
+
 const cartsFilePath = path.join(__dirname, "carts.json");
 const productsFilePath = path.join(__dirname, "products.json");
 const ordersFilePath = path.join(__dirname, "orders.json");
+const usersFilePath = path.join(__dirname, "users.json");
 
 function readCarts() {
     try {
@@ -63,13 +70,50 @@ function writeOrders(data) {
     fs.writeFileSync(ordersFilePath, JSON.stringify(data, null, 2));
 }
 
-app.post("/checkout", (req, res) => {
-    const { userId, userName, receiverName, email, mobile, address, items, discount } = req.body;
+function readUsers() {
+    if(!fs.existsSync(usersFilePath)) {
+        fs.writeFileSync(usersFilePath, "[]");
+    }
+    const data = fs.readFileSync(usersFilePath, "utf-8").trim();
+    return data ? JSON.parse(data) : [];
+}
 
-    if (!userId || !userName || !receiverName || !email || !mobile || !address || !items) {
-        return res.status(400).json({ success: false, message: "All fields required" });
+function writeUsers(users) {
+    fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
+}
+
+function checkAuth(req, res, next) {
+    const authHeader = req.headers["authorization"];
+
+    if (!authHeader) {
+        return res.status(401).json({ message: "No token" });
     }
 
+    const token = authHeader.split(" ")[1];
+
+    try {
+        const decoded = jwt.verify(token, SECRET);
+        req.user = decoded; 
+        next();
+    } catch (err) {
+        return res.status(401).json({ message: "Invalid token" });
+    }
+}
+
+app.post("/checkout",checkAuth, (req, res) => {
+    //const { userId, userName, receiverName, email, mobile, address, items, discount } = req.body;
+    const userId = req.user.userId;
+    const receiverName = req.body.receiverName;
+    const email = req.body.email;
+    const mobile = req.body.mobile;
+    const address = req.body.address;
+    const items = req.body.items;
+    const discount = req.body.discount;
+
+    if (!userId || !receiverName || !email || !mobile || !address || !items) {
+        return res.status(400).json({ success: false, message: "All fields required" });
+    }
+ 
     const products = readProducts(); 
     const orderItems = [];
 
@@ -94,13 +138,15 @@ app.post("/checkout", (req, res) => {
         });
     });
 
-    const discountAmount = ((totalAmount * discount) / 100).toFixed(2);
-    const finalAmount = totalAmount - discountAmount;
+    const discountAmount = parseFloat(((totalAmount * discount) / 100).toFixed(2));
+    const finalAmount = parseFloat((totalAmount - discountAmount).toFixed(2));
+    const users = readUsers();
+    const userObj = users.find(u => u.id == userId);
 
     const newOrder = {
         orderId: "ORD-" + Date.now(),
         userId,
-        userName,        
+        userName: userObj ? userObj.username : "Unknown",        
         receiverName,
         email,
         mobile,
@@ -123,10 +169,8 @@ app.post("/checkout", (req, res) => {
     });
 });
 
-app.get("/orders", (req, res) => {
-    const role = req.headers["role"];
-
-    if (role !== "admin") {
+app.get("/orders", checkAuth, (req, res) => {
+    if (req.user.role !== "admin") {
         return res.status(403).json({ error: "Admins only" });
     }
 
@@ -134,11 +178,10 @@ app.get("/orders", (req, res) => {
     res.json(db.orders);
 });
 
-app.get("/orders/:userId", (req, res) => {
-    const { userId } = req.params;
+app.get("/orders/my", checkAuth, (req, res) => {
+    const userId = req.user.userId;
 
     const db = readOrders();
-
     const userOrders = db.orders.filter(order => order.userId == userId);
 
     res.json(userOrders);
@@ -149,7 +192,11 @@ app.get("/products", (req, res) => {
     res.json(products);
 });
 
-app.post("/products", (req, res) => {
+app.post("/products", checkAuth , (req, res) => {
+    if (req.user.role !== "admin") {
+        return res.status(403).json({ message: "Admins only" });
+    }
+
     const { title, price, description, category, image, rating } = req.body;
 
     if (!title || !price || !description || !category || !image) {
@@ -182,7 +229,11 @@ app.post("/products", (req, res) => {
     res.status(201).json({ success: true, product: newProduct });
 });
 
-app.delete("/products/:id", (req, res) => {
+app.delete("/products/:id", checkAuth, (req, res) => {
+    if (req.user.role !== "admin") {
+        return res.status(403).json({ message: "Admins only" });
+    }
+
     const id = Number(req.params.id);
 
     let products = readProducts();
@@ -200,14 +251,15 @@ app.delete("/products/:id", (req, res) => {
     res.json({ success: true, message: `${deleted.title} deleted.` });
 });
 
-app.get("/cart/:userId", (req, res) => {
-    const userId = req.params.userId;
+app.get("/cart", checkAuth, (req, res) => {
+    const userId = req.user.userId;
     const carts = readCarts();
     res.json(carts[userId] || { items: [] });
 });
 
-app.post("/cart", (req, res) => {
-    const { userId, productId, qty } = req.body;
+app.post("/cart", checkAuth, (req, res) => {
+    const { productId, qty } = req.body;
+    const userId = req.user.userId;
 
     if (!userId || !productId) {
         return res.status(400).json({ message: "Missing userId or productId" });
@@ -232,8 +284,9 @@ app.post("/cart", (req, res) => {
     res.json({ message: "Cart updated", cart: carts[userId] });
 });
 
-app.put("/cart", (req, res) => {
-    const { userId, productId, qty } = req.body;
+app.put("/cart", checkAuth, (req, res) => {
+    const { productId, qty } = req.body;
+    const userId = req.user.userId;
 
     const carts = readCarts();
 
@@ -247,8 +300,9 @@ app.put("/cart", (req, res) => {
     res.json({ message: "Cart updated", cart: carts[userId] });
 });
 
-app.delete("/cart", (req, res) => {
-    const { userId, productId } = req.body;
+app.delete("/cart", checkAuth, (req, res) => {
+    const { productId } = req.body;
+    const userId = req.user.userId;
 
     const carts = readCarts();
 
@@ -263,8 +317,8 @@ app.delete("/cart", (req, res) => {
     res.json({ message: "Item removed", cart: carts[userId] });
 });
 
-app.delete("/cart/clear/:userId", (req, res) => {
-    const userId = req.params.userId;
+app.delete("/cart/clear", checkAuth, (req, res) => {
+    const userId = req.user.userId;
 
     const carts = readCarts();
     carts[userId] = { items: [] };
@@ -273,6 +327,67 @@ app.delete("/cart/clear/:userId", (req, res) => {
 
     res.json({ message: "Cart cleared" });
 });
+
+app.post("/signup", async (req, res) => {
+    const { username, password, role } = req.body;
+
+    if (!username || !password) {
+        return res.status(400).json({ message: "Username and password required" });
+    }
+
+    const users = readUsers();
+    const existing = users.find(u => u.username === username);
+
+    if (existing) {
+        return res.status(400).json({ message: "User already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const newUser = {
+        id: Date.now(),
+        username,
+        password: hashedPassword,
+        role: "user"
+    };
+
+    users.push(newUser);
+    writeUsers(users);
+
+    res.json({ success: true, message: "Signup successful" });
+});
+
+app.post("/login", async (req, res) => {
+    const { username, password } = req.body;
+
+    const users = readUsers(); 
+    const user = users.find(u => u.username === username);
+
+    if (!user) {
+        return res.json({ message: "Invalid user" });
+    }
+
+    
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+        return res.json({ message: "Wrong password" });
+    }
+
+   
+    const token = jwt.sign(
+        { userId: user.id, role: user.role },
+        SECRET,
+        { expiresIn: "7d" }
+    );
+
+    res.json({
+        token: token
+    });
+});
+
+
+
 
 app.listen(3000, () => {
     console.log("Server is running on http://localhost:3000");
