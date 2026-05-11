@@ -238,5 +238,41 @@
       "rate": 3.6,
       "count": 145
     }
+  },
+  {
+    "id": 21,
+    "title": "Safari Seek 45L Laptop Backpack",
+    "price": 1700,
+    "description": "Safari Seek 45L Laptop Backpack",
+    "category": "bags",
+    "image": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTNu_G4jR7FV4YiqYPcgCyJs3yGAT7JgO4Qe319ErULS0jIW6jULx5c8X9HUaubrusJAaLwe6NIroiUYiECDRR_khrqcC5x0FOwKhJhcrGznuYdlk7yKasFuQ",
+    "rating": {
+      "rate": 4.5,
+      "count": 23
+    }
+  },
+  {
+    "id": 22,
+    "title": "Gear Aspire 30L Laptop Backpack",
+    "price": 1000,
+    "description": "Gear Aspire 30L Laptop Backpack",
+    "category": "bags",
+    "image": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTlzjBUTR66pBLQXTc18mVZEEeVd0FnclqBmbOsgCFzYcsPFAY99gviWfPXfidll4xZg90SWZsWJ8w0nYTmWeUTYjZD6HXDvYfGKW9EVH-6v3i5eMBo3m0q8w",
+    "rating": {
+      "rate": 4.2,
+      "count": 85
+    }
+  },
+  {
+    "id": 23,
+    "title": "Skybags Brat Backpack",
+    "price": 100,
+    "description": "Skybags Brat Backpack",
+    "category": "bags",
+    "image": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSkY0StavdA0hX-C56Fh2FsRCjcxHwoObnHaFZGMRZcL_BkobpnLw_jUUBbzzcFJBAOqskmmVGUXNOFDXFWDuGaFWlHYAdcjVgSFE6K23we8bbtxJ0zBdPKNg",
+    "rating": {
+      "rate": 4.2,
+      "count": 88
+    }
   }
 ]
