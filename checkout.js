@@ -1,12 +1,25 @@
-if (localStorage.getItem("isLoggedIn") !== "true") {
+// if (localStorage.getItem("isLoggedIn") !== "true") {
+//     window.location.href = "login.html";
+// }
+
+const token = localStorage.getItem("token");
+
+if (!token) {
     window.location.href = "login.html";
 }
 
 const checkoutWrapper = document.getElementById("checkoutWrapper");
 const finalSummary = document.getElementById("finalSummary");
 
-const userName = localStorage.getItem("user");
-const userId = localStorage.getItem("userId");
+// const userName = localStorage.getItem("user");
+// const userId = localStorage.getItem("userId");
+
+function parseJwt(token) {
+    return JSON.parse(atob(token.split('.')[1]));
+}
+
+const decoded = parseJwt(token);
+const userId = decoded.userId;
 let cartData = [];
 let allProducts = [];
 let discount = 0;
@@ -17,7 +30,11 @@ async function loadCheckoutData() {
     allProducts = await prodRes.json();
 
     
-    const cartRes = await fetch(`http://localhost:3000/cart/${userId}`);
+    const cartRes = await fetch("http://localhost:3000/cart", {
+        headers: {
+            Authorization: "Bearer " + token
+        }
+    });
     const cart = await cartRes.json();
 
     
@@ -118,7 +135,7 @@ document.getElementById("placeOrder").addEventListener("click", async () => {
 
     error1.textContent = "";
 
-    if(!receiverName || !email || !mobile || !address){
+    if(!name || !email || !mobile || !address){
         error1.textContent = "Please fill in all the fields.";
         return;
     }
@@ -135,9 +152,7 @@ document.getElementById("placeOrder").addEventListener("click", async () => {
     console.log("All good! Ready to save the order.");
 
     const order = {
-        userId,
-        userName,              
-        receiverName: name,    
+        receiverName: name,
         email,
         mobile,
         address,
@@ -152,7 +167,8 @@ document.getElementById("placeOrder").addEventListener("click", async () => {
         const res = await fetch("http://localhost:3000/checkout", {
             method: "POST",
             headers: {
-                "Content-Type": "application/json"
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
             },
             body: JSON.stringify(order)
         });
@@ -160,8 +176,11 @@ document.getElementById("placeOrder").addEventListener("click", async () => {
         const data = await res.json();
 
         if (data.success) {
-            await fetch(`http://localhost:3000/cart/clear/${userId}`, {
-                method: "DELETE"
+            await fetch("http://localhost:3000/cart/clear", {
+                method: "DELETE",
+                headers: {
+                    "Authorization": "Bearer " + token
+                }
             });
 
             alert("Order placed! Your Order ID is: " + data.order.orderId);

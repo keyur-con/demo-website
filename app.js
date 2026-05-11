@@ -1,28 +1,161 @@
-const isLoggedIn = localStorage.getItem("isLoggedIn");
-const user = localStorage.getItem("user");
+// const isLoggedIn = localStorage.getItem("isLoggedIn");
+// const user = localStorage.getItem("user");
+
+const token = localStorage.getItem("token");
+
+if (!token) {
+    window.location.href = "login.html";
+}
 
 let allProducts = [];
 
-if (isLoggedIn !== "true" || !user) {
-    window.location.href = "login.html";
-}
+const filters = {
+    search: "",
+    minPrice: 0,
+    maxPrice: Infinity,
+    minRating: 0,
+    categories: []     
+};
+
+// if (isLoggedIn !== "true" || !user) {
+//     window.location.href = "login.html";
+// }
 
 const logoutBtn = document.createElement("button");
 logoutBtn.classList.add("logout-btn");
 logoutBtn.innerText = "Logout";
 
 logoutBtn.addEventListener("click", () => {
-    localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+    // localStorage.removeItem("isLoggedIn");
+    // localStorage.removeItem("user");
 
     window.location.href = "login.html";
 });
 
 document.body.appendChild(logoutBtn);
 
-const role = localStorage.getItem("role");
+// const role = localStorage.getItem("role");
 
-if (role === "admin") {
+// if (role === "admin") {
+//     const adminBtn = document.createElement("button");
+
+//     adminBtn.innerText = "Go to Admin Panel";
+//     adminBtn.classList.add("admin-btn");
+
+//     adminBtn.addEventListener("click", () => {
+//         window.location.href = "admin.html";
+//     });
+
+//     document.body.appendChild(adminBtn);
+// }
+
+function applyFilters() {
+    let filtered = [...allProducts];
+
+    if(filters.search) {
+        filtered = filtered.filter(p => p.title.toLowerCase().includes(filters.search.toLowerCase()));
+    }
+    if(filters.minPrice > 0) {
+        filtered = filtered.filter(p => p.price >= filters.minPrice);
+    }
+    if(filters.maxPrice !== Infinity) {
+        filtered = filtered.filter(p => p.price <= filters.maxPrice);
+    }
+    if(filters.minRating > 0) {
+        filtered = filtered.filter(p => p.rating.rate >= filters.minRating);
+    }
+    if (filters.categories.length > 0) {
+        filtered = filtered.filter(p => filters.categories.includes(p.category));
+    }
+    renderProducts(filtered);
+
+    if(filtered.length === 0) { 
+        productWrapper.innerHTML = `<div class="no-results">No products found matching the criteria.</div>`;
+    }
+}
+
+function buildCategoryCheckboxes() {
+    const categories = [...new Set(allProducts.map(p => p.category))];
+    const container = document.getElementById("categoryButtons");
+    container.innerHTML = "";
+
+    categories.forEach(cat => {
+        const label = document.createElement("label");
+        label.className = "category-checkbox-label";
+
+        label.innerHTML = `
+            <input type="checkbox" value="${cat}" class="category-checkbox" />
+            ${cat}
+        `;
+
+        label.querySelector("input").addEventListener("change", (e) => {
+            if (e.target.checked) {
+                filters.categories.push(cat);
+            } else {
+                filters.categories = filters.categories.filter(c => c !== cat);
+            }
+            applyFilters();
+        });
+
+        container.appendChild(label);
+    });
+}
+
+function setupFilterListeners() {
+
+    // search — runs on every keystroke
+    document.getElementById("searchInput").addEventListener("input", (e) => {
+        filters.search = e.target.value.trim();
+        applyFilters();
+    });
+
+    // min price
+    document.getElementById("minPrice").addEventListener("input", (e) => {
+        filters.minPrice = Number(e.target.value) || 0;
+        applyFilters();
+    });
+
+    // max price
+    document.getElementById("maxPrice").addEventListener("input", (e) => {
+        filters.maxPrice = Number(e.target.value) || Infinity;
+        applyFilters();
+    });
+
+    // min rating
+    document.getElementById("minRating").addEventListener("change", (e) => {
+        filters.minRating = Number(e.target.value);
+        applyFilters();
+    });
+
+    // clear all filters
+    document.getElementById("clearFilters").addEventListener("click", () => {
+        filters.search = "";
+        filters.minPrice = 0;
+        filters.maxPrice = Infinity;
+        filters.minRating = 0;
+        filters.categories = [];
+
+        // reset all UI inputs
+        document.getElementById("searchInput").value = "";
+        document.getElementById("minPrice").value = "";
+        document.getElementById("maxPrice").value = "";
+        document.getElementById("minRating").value = "0";
+        document.querySelectorAll(".category-checkbox")
+            .forEach(cb => cb.checked = false);
+
+        applyFilters();
+    });
+}
+
+
+function parseJwt(token) {
+    return JSON.parse(atob(token.split('.')[1]));
+}
+
+const decoded = parseJwt(token);
+
+if (decoded.role === "admin") {
     const adminBtn = document.createElement("button");
 
     adminBtn.innerText = "Go to Admin Panel";
@@ -45,7 +178,12 @@ ordersBtn.addEventListener("click", () => {
 
 document.body.appendChild(ordersBtn);
 
-const userId = localStorage.getItem("userId");
+// function parseJwt(token) {
+//     return JSON.parse(atob(token.split('.')[1]));
+// }
+
+//const decoded = parseJwt(token);
+const userId = decoded.id;
 
 class Cart {
     constructor() {
@@ -54,7 +192,11 @@ class Cart {
     }
 
     async loadCart() {
-        const res = await fetch(`http://localhost:3000/cart/${userId}`);
+        const res = await fetch("http://localhost:3000/cart", {
+                        headers: {
+                            Authorization: "Bearer " + token
+                        }
+                    });
         const data = await res.json();
 
         
@@ -62,14 +204,18 @@ class Cart {
             const product = allProducts.find(p => p.id === item.productId);
             if (!product) return null;
             return { ...product, quantity: item.qty };
-        }).filter(Boolean); // remove any nulls
+        }).filter(Boolean); 
     }
 
     async addProduct(product) {
         await fetch("http://localhost:3000/cart", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userId, productId: product.id, qty: 1 })
+        method: "POST",
+        headers: { 
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({ productId: product.id, qty: 1 }),
+            
         });
         await this.loadCart();
     }
@@ -81,24 +227,33 @@ class Cart {
         if (existing.quantity > 1) {
             await fetch("http://localhost:3000/cart", {
                 method: "PUT",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userId, productId: product.id, qty: existing.quantity - 1 })
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({ productId: product.id, qty: existing.quantity - 1 })
             });
         } else {
-            await fetch("http://localhost:3000/cart", {
+            await fetch("http://localhost:3000/cart/clear", {
                 method: "DELETE",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ userId, productId: product.id })
+                headers: { 
+                    "Content-Type": "application/json",
+                    "Authorization": "Bearer " + token
+                },
+                body: JSON.stringify({ productId: product.id })
             });
         }
         await this.loadCart();
     }
 
     async deleteProduct(product) {
-        await fetch("http://localhost:3000/cart", {
+        await fetch("http://localhost:3000/cart/clear", {
             method: "DELETE",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ userId, productId: product.id })
+            headers: { 
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+            },
+            body: JSON.stringify({ productId: product.id })
         });
         await this.loadCart();
     }
@@ -134,8 +289,14 @@ function renderProducts(products){
         card.className = "product-card";
         card.innerHTML = `
             <img src="${product.image}" alt="${product.title}" class="product-img" />
-            <h4>${product.title}</h4>
+            <h4 style="display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">${product.title}</h4>
             <p>₹${product.price}</p>
+            
+            <div class="rating">
+                <p class="rating-value">${product.rating.rate}</p>
+                <p class="rating-count">(${product.rating.count})</p>
+            </div>
+
             <button class="add-btn">Add to Cart</button>
         `;
         
@@ -157,7 +318,9 @@ const cart = new Cart();
 const cartWrapper = document.getElementById("cartWrapper");
 
 (async () => {
-    await fetchProducts();
+    await fetchProducts();     
+    buildCategoryCheckboxes();   
+    setupFilterListeners();     
     await cart.loadCart();
     renderCart(cart);
 })();
@@ -188,7 +351,7 @@ async function renderCart(cart) {
                 <img src="${item.image}" class="cart-img" />
                 
                 <div class="cart-info ">
-                    <h4>${item.title}</h4>
+                    <h4 style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; ">${item.title}</h4>
 
                     <div>
                         <button class="decrease" data-id="${item.id}">-</button>

@@ -1,27 +1,21 @@
-const isLoggedIn = localStorage.getItem("isLoggedIn");
-const user = localStorage.getItem("user");
-const role = localStorage.getItem("role");
+// const isLoggedIn = localStorage.getItem("isLoggedIn");
+// const user = localStorage.getItem("user");
+// const role = localStorage.getItem("role");
 
-if (isLoggedIn !== "true" || !user || role !== "admin") {
+// if (isLoggedIn !== "true" || !user || role !== "admin") {
+//     window.location.href = "login.html";
+// }
+
+const token = localStorage.getItem("token");
+
+if (!token) {
     window.location.href = "login.html";
 }
 
-async function initializeProductsIfNeeded() {
-    let products = JSON.parse(localStorage.getItem("products"));
-
-    if (!products) {
-        const res = await fetch("./products.json");
-        products = await res.json();
-
-        localStorage.setItem("products", JSON.stringify(products));
-    }
-
-    return products;
-}
 
 document.getElementById("addProduct").addEventListener("click", async () => {
     const res = await fetch("http://localhost:3000/products");
-    localStorage.setItem("products_updated", Date.now());
+    //localStorage.setItem("products_updated", Date.now());
     const products = await res.json();
 
     const title = document.getElementById("title").value.trim();
@@ -65,11 +59,12 @@ document.getElementById("addProduct").addEventListener("click", async () => {
     await fetch("http://localhost:3000/products", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
         },
         body: JSON.stringify(newProduct)
     });
-    localStorage.setItem("products_updated", Date.now());
+    //localStorage.setItem("products_updated", Date.now());
     
     document.getElementById("msg").innerText = " Product added successfully!";
 
@@ -126,7 +121,10 @@ document.getElementById("adminWrapper").addEventListener("click", async (e) => {
         const id = e.target.dataset.id;
 
         await fetch(`http://localhost:3000/products/${id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
         });
 
         renderAdminProducts(); 
@@ -134,11 +132,11 @@ document.getElementById("adminWrapper").addEventListener("click", async (e) => {
 });
 
 document.getElementById("fetchOrdersBtn").addEventListener("click", () => {
-    const role = localStorage.getItem("role");
+    //const role = localStorage.getItem("role");
 
     fetch ("http://localhost:3000/orders", {
         headers: {
-            "role": role
+            "Authorization": "Bearer " + token
         }
     })
     .then(res => res.json())
