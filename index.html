@@ -8,6 +8,42 @@
 </head>
 <body>
     <h1>Shopping Section</h1>
+
+    <div id="filterbar" class="filterbar">
+        <input type="text" id="searchInput" placeholder="Search for products...">
+
+        <div id="filterOptions">
+            <div class="filter-group">
+                <label>Min Price</label>
+                <input type="number" id="minPrice" placeholder="0" min="0" />
+            </div>
+
+            <div class="filter-group">
+                <label>Max Price</label>
+                <input type="number" id="maxPrice" placeholder="0" min="0" />
+            </div>
+
+            <div class="filter-group">
+                <label>Min Rating</label>
+                <select id="minRating">
+                    <option value="0">Any</option>
+                    <option value="1">1+</option>
+                    <option value="2">2+</option>
+                    <option value="3">3+</option>
+                    <option value="4">4+</option>
+                </select>
+
+                
+
+            </div>
+            <div id="categoryButtons"></div>
+                
+                
+
+                <button id="clearFilters">Clear Filters</button>
+        </div>
+    </div>
+
     <div id="mainWrapper">
         <div id="productWrapper">
         

@@ -1,28 +1,22 @@
-const isLoggedIn = localStorage.getItem("isLoggedIn");
-const user = localStorage.getItem("user");
-const role = localStorage.getItem("role");
+// const isLoggedIn = localStorage.getItem("isLoggedIn");
+// const user = localStorage.getItem("user");
+// const role = localStorage.getItem("role");
 
-if (isLoggedIn !== "true" || !user || role !== "admin") {
+// if (isLoggedIn !== "true" || !user || role !== "admin") {
+//     window.location.href = "login.html";
+// }
+
+const token = localStorage.getItem("token");
+
+if (!token) {
     window.location.href = "login.html";
 }
 
-async function initializeProductsIfNeeded() {
-    let products = JSON.parse(localStorage.getItem("products"));
-
-    if (!products) {
-        const res = await fetch("./products.json");
-        products = await res.json();
-
-        localStorage.setItem("products", JSON.stringify(products));
-    }
-
-    return products;
-}
 
 document.getElementById("addProduct").addEventListener("click", async () => {
-    const res = await fetch("http://localhost:3000/products");
-    localStorage.setItem("products_updated", Date.now());
-    const products = await res.json();
+    //const res = await fetch("http://localhost:3000/products");
+    //localStorage.setItem("products_updated", Date.now());
+    //const products = await res.json();
 
     const title = document.getElementById("title").value.trim();
     const price = Number(document.getElementById("price").value);
@@ -40,36 +34,47 @@ document.getElementById("addProduct").addEventListener("click", async () => {
     }
 
     
-    const newId =
-        products.length > 0
-            ? Math.max(...products.map(p => p.id)) + 1
-            : 1;
+    //const newId =
+    //    products.length > 0
+    //        ? Math.max(...products.map(p => p.id)) + 1
+    //        : 1;
 
-    const newProduct = {
-        id: newId,
-        title,
-        price,
-        description,
-        category,
-        image,
-        rating: {
-            rate: rate || 0,
-            count: count || 0
-        }
-    };
-
-    
-    products.push(newProduct);
+    // const newProduct = {
+    //     id: newId,
+    //     title,
+    //     price,
+    //     description,
+    //     category,
+    //     image,
+    //     rating: {
+    //         rate: rate || 0,
+    //         count: count || 0
+    //     }
+    // };
 
     
-    await fetch("http://localhost:3000/products", {
+    //products.push(newProduct);
+
+    
+    const res = await fetch("http://localhost:3000/products", {
         method: "POST",
         headers: {
-            "Content-Type": "application/json"
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token
         },
-        body: JSON.stringify(newProduct)
+        body: JSON.stringify({ title, price, description, category, image, rating: { rate, count } })
     });
-    localStorage.setItem("products_updated", Date.now());
+    const data = await res.json();
+
+    if (data.success) {
+        document.getElementById("msg").innerText = "Product added successfully!";
+        renderAdminProducts();
+        ["title","price","description","category","image","rate","count"]
+            .forEach(id => document.getElementById(id).value = "");
+    } else {
+        alert(data.message || "Failed to add product");
+    }
+    //localStorage.setItem("products_updated", Date.now());
     
     document.getElementById("msg").innerText = " Product added successfully!";
 
@@ -105,12 +110,10 @@ async function renderAdminProducts() {
     products.forEach(product => {
         const div = document.createElement("div");
         div.className = "admin-product-card";
-
         div.innerHTML = `
-            <p> ${product.id}. ${product.title} — ₹${product.price}</p>
-            <button data-id="${product.id}" class="delete-btn"> Delete </button>
+            <p>${product.title} — ₹${product.price}</p>
+            <button data-id="${product._id}" class="delete-btn">Delete</button>
         `;
-
         wrapper.appendChild(div);
     });
 }
@@ -126,7 +129,10 @@ document.getElementById("adminWrapper").addEventListener("click", async (e) => {
         const id = e.target.dataset.id;
 
         await fetch(`http://localhost:3000/products/${id}`, {
-            method: "DELETE"
+            method: "DELETE",
+            headers: {
+                "Authorization": "Bearer " + token
+            }
         });
 
         renderAdminProducts(); 
@@ -134,11 +140,11 @@ document.getElementById("adminWrapper").addEventListener("click", async (e) => {
 });
 
 document.getElementById("fetchOrdersBtn").addEventListener("click", () => {
-    const role = localStorage.getItem("role");
+    //const role = localStorage.getItem("role");
 
     fetch ("http://localhost:3000/orders", {
         headers: {
-            "role": role
+            "Authorization": "Bearer " + token
         }
     })
     .then(res => res.json())
@@ -169,6 +175,7 @@ document.getElementById("fetchOrdersBtn").addEventListener("click", () => {
 
             div.innerHTML = `
                 <p><strong>Order ID:</strong> ${order.orderId}</p>
+                <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
                 <p><strong>Account User:</strong> ${order.userName || "N/A" }</p>
                 <p><strong>Deliver To:</strong> ${order.receiverName || order.name}</p>
                 <p><strong>Email:</strong> ${order.email}</p>

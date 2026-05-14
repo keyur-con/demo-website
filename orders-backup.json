@@ -1,0 +1,30 @@
+[
+  {
+    "_id": "6a05c81b7823ed403830e758",
+    "orderId": "ORD-1778763803523",
+    "userId": "6a056361793e01d720dec992",
+    "userName": "Keyur shah",
+    "receiverName": "Keyur",
+    "email": "abc@gmail.com",
+    "mobile": "1234567890",
+    "address": "keyur house",
+    "items": [
+      {
+        "productId": "6a05634bf3a08e3de0db931a",
+        "title": "Mens Cotton Jacket",
+        "price": 55.99,
+        "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png",
+        "qty": 1,
+        "total": 55.99,
+        "_id": "6a05c81b7823ed403830e759"
+      }
+    ],
+    "totalAmount": 55.99,
+    "discount": 50,
+    "finalAmount": 27.99,
+    "status": "placed",
+    "createdAt": "2026-05-14T13:03:23.544Z",
+    "updatedAt": "2026-05-14T13:03:23.544Z",
+    "__v": 0
+  }
+]

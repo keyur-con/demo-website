@@ -1,0 +1,42 @@
+[
+  {
+    "_id": "6a056b0b79d94845af2c6b85",
+    "userId": "6a02d758ab5adcc1eb8b71b5",
+    "items": [
+      {
+        "productId": "6a05634bf3a08e3de0db9319",
+        "qty": 1,
+        "_id": "6a056b2b79d94845af2c6b8a"
+      },
+      {
+        "productId": "6a05634bf3a08e3de0db931d",
+        "qty": 1,
+        "_id": "6a05772b79d94845af2c6b96"
+      },
+      {
+        "productId": "6a05634bf3a08e3de0db9323",
+        "qty": 1,
+        "_id": "6a05997e5a0b4efad105ff04"
+      }
+    ],
+    "createdAt": "2026-05-14T06:26:19.704Z",
+    "updatedAt": "2026-05-14T09:44:30.113Z",
+    "__v": 5
+  },
+  {
+    "_id": "6a05b851ca9e951e0fd13302",
+    "userId": "6a056361793e01d720dec991",
+    "items": [],
+    "createdAt": "2026-05-14T11:56:01.886Z",
+    "updatedAt": "2026-05-14T11:56:06.382Z",
+    "__v": 2
+  },
+  {
+    "_id": "6a05c42f332aa990118648ba",
+    "userId": "6a056361793e01d720dec992",
+    "items": [],
+    "createdAt": "2026-05-14T12:46:39.688Z",
+    "updatedAt": "2026-05-14T13:03:23.560Z",
+    "__v": 1
+  }
+]

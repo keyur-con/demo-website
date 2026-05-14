@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "password": "$2b$10$5BPcpaJBUeBhu0izaOyitOIv99HiNfdS0XGHgicO/Je57ybu697iC",
+    "role": "admin"
+  },
+  {
+    "id": 1778145813477,
+    "username": "Keyur shah",
+    "password": "$2b$10$UVNITduzriIr3fzY4yPW9O4svHhoWzfLMvd5/PyptHfzQ/q/XQ01e",
+    "role": "user"
+  },
+  {
+    "id": 1778146080492,
+    "username": "user3",
+    "password": "$2b$10$6BsFEU/6XQbxsDKcDrfBXOKMHshyPKMyThal7IruKjOI3iRPY1zdu",
+    "role": "user"
+  },
+  {
+    "id": 1778221303966,
+    "username": "user1",
+    "password": "$2b$10$57e.jQpXlwmsXc9mqDhYzuQhaGOKVdvAqHrF9O2qSM2ZyO9GDQ/y2",
+    "role": "user"
+  },
+  {
+    "id": 1778476648840,
+    "username": "user2",
+    "password": "$2b$10$ubdG31HgJC5YD9qmE0TwyODE/t1EEF2GN4JLBzqnYkWFj.rPcKSv6",
+    "role": "user"
+  },
+  {
+    "id": 1778504498175,
+    "username": "user_001",
+    "password": "$2b$10$t3kqEaEEcYjcOnoSYJMZpuhM6k4xS.o.1eOJROqJVVflcAn9K8DJu",
+    "role": "user"
+  }
+]

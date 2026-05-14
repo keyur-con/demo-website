@@ -1,7 +1,13 @@
-const userId = localStorage.getItem("userId");
+//const userId = localStorage.getItem("userId");
 const ordersWrapper = document.getElementById("ordersWrapper");
 
 const backBtn = document.getElementById("backBtn");
+
+const token = localStorage.getItem("token");
+
+if (!token) {
+    window.location.href = "login.html";
+}
 
 backBtn.addEventListener("click", () => {
     window.location.href = "index.html";
@@ -9,7 +15,11 @@ backBtn.addEventListener("click", () => {
 
 async function fetchOrders() {
     try {
-        const res = await fetch(`http://localhost:3000/orders/${userId}`);
+        const res = await fetch(`http://localhost:3000/orders/my`, {
+            headers: {
+                Authorization: "Bearer " + token
+            }
+        });
         const orders = await res.json();
 
         renderOrders(orders);
