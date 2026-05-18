@@ -200,11 +200,31 @@ class Cart {
         const data = await res.json();
 
         
+        // this.items = data.items.map(item => {
+        //     const product = allProducts.find(p => p._id.toString() === item.productId.toString());
+        //     if (!product) return null;
+        //     return { ...product, quantity: item.qty };
+        // }).filter(Boolean); 
+
+        
         this.items = data.items.map(item => {
             const product = allProducts.find(p => p._id.toString() === item.productId.toString());
-            if (!product) return null;
+
+            if (!product) {
+                
+                return {
+                    _id:         item.productId,
+                    title:       "Product No Longer Available",
+                    price:       0,
+                    image:       "",
+                    quantity:    item.qty,
+                    unavailable: true   
+                };
+            }
+
             return { ...product, quantity: item.qty };
-        }).filter(Boolean); 
+        });
+        
     }
 
     async addProduct(product) {
@@ -339,44 +359,71 @@ async function renderCart(cart) {
         return;
     }
 
-    cart.items.forEach(item => {
+    // cart.items.forEach(item => {
 
-        const exists = allProducts.find(p => p._id.toString() === item._id.toString());
+    //     const exists = allProducts.find(p => p._id.toString() === item._id.toString());
+
+    //     const itemElement = document.createElement("div");
+    //     itemElement.style.position = "relative";
+
+    //     itemElement.innerHTML = `
+    //         <div class="cart-item ${!exists ? "not-available" : ""}">
+    //             <img src="${item.image}" class="cart-img" />                
+    //             <div class="cart-info ">
+    //                 <h4 style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; ">${item.title}</h4>
+
+    //                 <div>
+    //                     <button class="decrease" data-id="${item._id}">-</button>
+    //                     <span>${item.quantity}</span>
+    //                     <button class="increase" data-id="${item._id}">+</button>
+    //                 </div>
+
+    //                 <p>₹${(item.price * item.quantity).toFixed(2)}</p>
+
+                    
+    //             </div>
+    //             <button class="remove-btn" data-id="${item._id}">Remove</button>
+    //         </div>
+
+    //         ${
+    //             !exists
+    //             ? `<div class="overlay-text">Not Available</div>`
+    //             : ""
+    //         }
+    //     `;
+
+    //     cartWrapper.appendChild(itemElement);
+    // });
+
+    cart.items.forEach(item => {
+        const exists = !item.unavailable;   // ← simpler check using our flag
 
         const itemElement = document.createElement("div");
         itemElement.style.position = "relative";
 
         itemElement.innerHTML = `
             <div class="cart-item ${!exists ? "not-available" : ""}">
-                <img src="${item.image}" class="cart-img" />
-                
-                <div class="cart-info ">
-                    <h4 style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; ">${item.title}</h4>
-
+                <img src="${item.image || ''}" class="cart-img" />
+                <div class="cart-info">
+                    <h4 style="display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                        ${item.title}
+                    </h4>
                     <div>
                         <button class="decrease" data-id="${item._id}">-</button>
                         <span>${item.quantity}</span>
                         <button class="increase" data-id="${item._id}">+</button>
                     </div>
-
                     <p>₹${(item.price * item.quantity).toFixed(2)}</p>
-
-                    
                 </div>
                 <button class="remove-btn" data-id="${item._id}">Remove</button>
             </div>
-
-            ${
-                !exists
-                ? `<div class="overlay-text">Not Available</div>`
-                : ""
-            }
+            ${!exists ? `<div class="overlay-text">Not Available</div>` : ""}
         `;
 
         cartWrapper.appendChild(itemElement);
     });
 
-    
+
     const total = cart.getTotal();
 
     const summary = document.createElement("div");
@@ -396,9 +443,7 @@ async function renderCart(cart) {
     checkoutBtn.className = "checkout-btn";
 
     checkoutBtn.addEventListener("click", () => {
-    const hasUnavailable = cart.items.some(item =>
-        !allProducts.some(p => p._id.toString() === item._id.toString())
-    );
+    const hasUnavailable = cart.items.some(item => item.unavailable);
     if (hasUnavailable) {
         alert("Cart has items that are not available.");
         return;

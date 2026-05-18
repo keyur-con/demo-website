@@ -26,5 +26,70 @@
     "createdAt": "2026-05-14T13:03:23.544Z",
     "updatedAt": "2026-05-14T13:03:23.544Z",
     "__v": 0
+  },
+  {
+    "_id": "6a0708db4bde67d16e77af34",
+    "orderId": "ORD-1778845915272",
+    "userId": "6a02d758ab5adcc1eb8b71b6",
+    "userName": "Unknown",
+    "receiverName": "Keyur",
+    "email": "abc@gmail.com",
+    "mobile": "1234567890",
+    "address": "Keyur House",
+    "items": [
+      {
+        "productId": "6a05634af3a08e3de0db9318",
+        "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+        "price": 109.95,
+        "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+        "qty": 1,
+        "total": 109.95,
+        "_id": "6a0708db4bde67d16e77af35"
+      }
+    ],
+    "totalAmount": 109.95,
+    "discount": 10,
+    "finalAmount": 98.96,
+    "status": "placed",
+    "createdAt": "2026-05-15T11:51:55.274Z",
+    "updatedAt": "2026-05-15T11:51:55.274Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a0709464bde67d16e77af47",
+    "orderId": "ORD-1778846022105",
+    "userId": "6a056361793e01d720dec994",
+    "userName": "user1",
+    "receiverName": "alex",
+    "email": "alex@gmail.com",
+    "mobile": "1111111111",
+    "address": "alex hosue",
+    "items": [
+      {
+        "productId": "6a05634bf3a08e3de0db9323",
+        "title": "WD 4TB Gaming Drive Works with Playstation 4 Portable External Hard Drive",
+        "price": 114,
+        "image": "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
+        "qty": 1,
+        "total": 114,
+        "_id": "6a0709464bde67d16e77af48"
+      },
+      {
+        "productId": "6a05634bf3a08e3de0db9321",
+        "title": "SanDisk SSD PLUS 1TB Internal SSD - SATA III 6 Gb/s",
+        "price": 109,
+        "image": "https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_t.png",
+        "qty": 1,
+        "total": 109,
+        "_id": "6a0709464bde67d16e77af49"
+      }
+    ],
+    "totalAmount": 223,
+    "discount": 0,
+    "finalAmount": 223,
+    "status": "placed",
+    "createdAt": "2026-05-15T11:53:42.106Z",
+    "updatedAt": "2026-05-15T11:53:42.106Z",
+    "__v": 0
   }
 ]
