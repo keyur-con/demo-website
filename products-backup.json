@@ -1,278 +1,496 @@
 [
   {
-    "id": 1,
+    "rating": {
+      "rate": 3.9,
+      "count": 120
+    },
+    "_id": "6a05634af3a08e3de0db9318",
     "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
     "price": 109.95,
     "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
     "category": "men's clothing",
     "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
-    "rating": {
-      "rate": 3.9,
-      "count": 120
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.013Z",
+    "updatedAt": "2026-05-19T13:40:26.041Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 5,
+    "status": "active"
   },
   {
-    "id": 2,
+    "rating": {
+      "rate": 4.1,
+      "count": 259
+    },
+    "_id": "6a05634bf3a08e3de0db9319",
     "title": "Mens Casual Premium Slim Fit T-Shirts ",
     "price": 22.3,
     "description": "Slim-fitting style, contrast raglan long sleeve, three-button henley placket, light weight & soft fabric for breathable and comfortable wearing. And Solid stitched shirts with round neck made for durability and a great fit for casual fashion wear and diehard baseball fans. The Henley style round neckline includes a three-button placket.",
     "category": "men's clothing",
     "image": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png",
-    "rating": {
-      "rate": 4.1,
-      "count": 259
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.026Z",
+    "updatedAt": "2026-05-20T07:42:22.830Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 3,
+    "status": "active"
   },
   {
-    "id": 3,
+    "rating": {
+      "rate": 4.7,
+      "count": 500
+    },
+    "_id": "6a05634bf3a08e3de0db931a",
     "title": "Mens Cotton Jacket",
     "price": 55.99,
     "description": "great outerwear jackets for Spring/Autumn/Winter, suitable for many occasions, such as working, hiking, camping, mountain/rock climbing, cycling, traveling or other outdoors. Good gift choice for you or your family member. A warm hearted love to Father, husband or son in this thanksgiving or Christmas Day.",
     "category": "men's clothing",
     "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png",
-    "rating": {
-      "rate": 4.7,
-      "count": 500
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.026Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 99,
+    "status": "active"
   },
   {
-    "id": 4,
+    "rating": {
+      "rate": 2.1,
+      "count": 430
+    },
+    "_id": "6a05634bf3a08e3de0db931b",
     "title": "Mens Casual Slim Fit",
     "price": 15.99,
     "description": "The color could be slightly different between on the screen and in practice. / Please note that body builds vary by person, therefore, detailed size information should be reviewed below on the product description.",
     "category": "men's clothing",
     "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_t.png",
-    "rating": {
-      "rate": 2.1,
-      "count": 430
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.026Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 5,
+    "rating": {
+      "rate": 4.6,
+      "count": 400
+    },
+    "_id": "6a05634bf3a08e3de0db931c",
     "title": "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet",
     "price": 695,
     "description": "From our Legends Collection, the Naga was inspired by the mythical water dragon that protects the ocean's pearl. Wear facing inward to be bestowed with love and abundance, or outward for protection.",
     "category": "jewelery",
     "image": "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_t.png",
-    "rating": {
-      "rate": 4.6,
-      "count": 400
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.027Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 6,
+    "rating": {
+      "rate": 3.9,
+      "count": 70
+    },
+    "_id": "6a05634bf3a08e3de0db931d",
     "title": "Solid Gold Petite Micropave ",
     "price": 168,
     "description": "Satisfaction Guaranteed. Return or exchange any order within 30 days.Designed and sold by Hafeez Center in the United States. Satisfaction Guaranteed. Return or exchange any order within 30 days.",
     "category": "jewelery",
     "image": "https://fakestoreapi.com/img/61sbMiUnoGL._AC_UL640_QL65_ML3_t.png",
-    "rating": {
-      "rate": 3.9,
-      "count": 70
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.027Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 7,
+    "rating": {
+      "rate": 3,
+      "count": 400
+    },
+    "_id": "6a05634bf3a08e3de0db931e",
     "title": "White Gold Plated Princess",
     "price": 9.99,
     "description": "Classic Created Wedding Engagement Solitaire Diamond Promise Ring for Her. Gifts to spoil your love more for Engagement, Wedding, Anniversary, Valentine's Day...",
     "category": "jewelery",
     "image": "https://fakestoreapi.com/img/71YAIFU48IL._AC_UL640_QL65_ML3_t.png",
-    "rating": {
-      "rate": 3,
-      "count": 400
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.027Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 8,
+    "rating": {
+      "rate": 1.9,
+      "count": 100
+    },
+    "_id": "6a05634bf3a08e3de0db931f",
     "title": "Pierced Owl Rose Gold Plated Stainless Steel Double",
     "price": 10.99,
     "description": "Rose Gold Plated Double Flared Tunnel Plug Earrings. Made of 316L Stainless Steel",
     "category": "jewelery",
     "image": "https://fakestoreapi.com/img/51UDEzMJVpL._AC_UL640_QL65_ML3_t.png",
-    "rating": {
-      "rate": 1.9,
-      "count": 100
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.027Z",
+    "updatedAt": "2026-05-18T11:36:23.109Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 99,
+    "status": "active"
   },
   {
-    "id": 9,
+    "rating": {
+      "rate": 3.3,
+      "count": 203
+    },
+    "_id": "6a05634bf3a08e3de0db9320",
     "title": "WD 2TB Elements Portable External Hard Drive - USB 3.0 ",
     "price": 64,
     "description": "USB 3.0 and USB 2.0 Compatibility Fast data transfers Improve PC Performance High Capacity; Compatibility Formatted NTFS for Windows 10, Windows 8.1, Windows 7; Reformatting may be required for other operating systems; Compatibility may vary depending on user’s hardware configuration and operating system",
     "category": "electronics",
     "image": "https://fakestoreapi.com/img/61IBBVJvSDL._AC_SY879_t.png",
-    "rating": {
-      "rate": 3.3,
-      "count": 203
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.027Z",
+    "updatedAt": "2026-05-18T11:36:23.130Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 99,
+    "status": "active"
   },
   {
-    "id": 10,
+    "rating": {
+      "rate": 2.9,
+      "count": 470
+    },
+    "_id": "6a05634bf3a08e3de0db9321",
     "title": "SanDisk SSD PLUS 1TB Internal SSD - SATA III 6 Gb/s",
     "price": 109,
     "description": "Easy upgrade for faster boot up, shutdown, application load and response (As compared to 5400 RPM SATA 2.5” hard drive; Based on published specifications and internal benchmarking tests using PCMark vantage scores) Boosts burst write performance, making it ideal for typical PC workloads The perfect balance of performance and reliability Read/write speeds of up to 535MB/s/450MB/s (Based on internal testing; Performance may vary depending upon drive capacity, host device, OS and application.)",
     "category": "electronics",
     "image": "https://fakestoreapi.com/img/61U7T1koQqL._AC_SX679_t.png",
-    "rating": {
-      "rate": 2.9,
-      "count": 470
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.027Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 11,
+    "rating": {
+      "rate": 4.8,
+      "count": 319
+    },
+    "_id": "6a05634bf3a08e3de0db9322",
     "title": "Silicon Power 256GB SSD 3D NAND A55 SLC Cache Performance Boost SATA III 2.5",
     "price": 109,
     "description": "3D NAND flash are applied to deliver high transfer speeds Remarkable transfer speeds that enable faster bootup and improved overall system performance. The advanced SLC Cache Technology allows performance boost and longer lifespan 7mm slim design suitable for Ultrabooks and Ultra-slim notebooks. Supports TRIM command, Garbage Collection technology, RAID, and ECC (Error Checking & Correction) to provide the optimized performance and enhanced reliability.",
     "category": "electronics",
     "image": "https://fakestoreapi.com/img/71kWymZ+c+L._AC_SX679_t.png",
-    "rating": {
-      "rate": 4.8,
-      "count": 319
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.027Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 12,
+    "rating": {
+      "rate": 4.8,
+      "count": 400
+    },
+    "_id": "6a05634bf3a08e3de0db9323",
     "title": "WD 4TB Gaming Drive Works with Playstation 4 Portable External Hard Drive",
     "price": 114,
     "description": "Expand your PS4 gaming experience, Play anywhere Fast and easy, setup Sleek design with high capacity, 3-year manufacturer's limited warranty",
     "category": "electronics",
     "image": "https://fakestoreapi.com/img/61mtL65D4cL._AC_SX679_t.png",
-    "rating": {
-      "rate": 4.8,
-      "count": 400
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.027Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 13,
+    "rating": {
+      "rate": 2.9,
+      "count": 250
+    },
+    "_id": "6a05634bf3a08e3de0db9324",
     "title": "Acer SB220Q bi 21.5 inches Full HD (1920 x 1080) IPS Ultra-Thin",
     "price": 599,
     "description": "21. 5 inches Full HD (1920 x 1080) widescreen IPS display And Radeon free Sync technology. No compatibility for VESA Mount Refresh Rate: 75Hz - Using HDMI port Zero-frame design | ultra-thin | 4ms response time | IPS panel Aspect ratio - 16: 9. Color Supported - 16. 7 million colors. Brightness - 250 nit Tilt angle -5 degree to 15 degree. Horizontal viewing angle-178 degree. Vertical viewing angle-178 degree 75 hertz",
     "category": "electronics",
     "image": "https://fakestoreapi.com/img/81QpkIctqPL._AC_SX679_t.png",
-    "rating": {
-      "rate": 2.9,
-      "count": 250
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.027Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 14,
+    "rating": {
+      "rate": 2.2,
+      "count": 140
+    },
+    "_id": "6a05634bf3a08e3de0db9325",
     "title": "Samsung 49-Inch CHG90 144Hz Curved Gaming Monitor (LC49HG90DMNXZA) – Super Ultrawide Screen QLED ",
     "price": 999.99,
     "description": "49 INCH SUPER ULTRAWIDE 32:9 CURVED GAMING MONITOR with dual 27 inch screen side by side QUANTUM DOT (QLED) TECHNOLOGY, HDR support and factory calibration provides stunningly realistic and accurate color and contrast 144HZ HIGH REFRESH RATE and 1ms ultra fast response time work to eliminate motion blur, ghosting, and reduce input lag",
     "category": "electronics",
     "image": "https://fakestoreapi.com/img/81Zt42ioCgL._AC_SX679_t.png",
-    "rating": {
-      "rate": 2.2,
-      "count": 140
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.027Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 15,
+    "rating": {
+      "rate": 2.6,
+      "count": 235
+    },
+    "_id": "6a05634bf3a08e3de0db9326",
     "title": "BIYLACLESEN Women's 3-in-1 Snowboard Jacket Winter Coats",
     "price": 56.99,
     "description": "Note:The Jackets is US standard size, Please choose size as your usual wear Material: 100% Polyester; Detachable Liner Fabric: Warm Fleece. Detachable Functional Liner: Skin Friendly, Lightweigt and Warm.Stand Collar Liner jacket, keep you warm in cold weather. Zippered Pockets: 2 Zippered Hand Pockets, 2 Zippered Pockets on Chest (enough to keep cards or keys)and 1 Hidden Pocket Inside.Zippered Hand Pockets and Hidden Pocket keep your things secure. Humanized Design: Adjustable and Detachable Hood and Adjustable cuff to prevent the wind and water,for a comfortable fit. 3 in 1 Detachable Design provide more convenience, you can separate the coat and inner as needed, or wear it together. It is suitable for different season and help you adapt to different climates",
     "category": "women's clothing",
     "image": "https://fakestoreapi.com/img/51Y5NI-I5jL._AC_UX679_t.png",
-    "rating": {
-      "rate": 2.6,
-      "count": 235
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.027Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 16,
+    "rating": {
+      "rate": 2.9,
+      "count": 340
+    },
+    "_id": "6a05634bf3a08e3de0db9327",
     "title": "Lock and Love Women's Removable Hooded Faux Leather Moto Biker Jacket",
     "price": 29.95,
     "description": "100% POLYURETHANE(shell) 100% POLYESTER(lining) 75% POLYESTER 25% COTTON (SWEATER), Faux leather material for style and comfort / 2 pockets of front, 2-For-One Hooded denim style faux leather jacket, Button detail on waist / Detail stitching at sides, HAND WASH ONLY / DO NOT BLEACH / LINE DRY / DO NOT IRON",
     "category": "women's clothing",
     "image": "https://fakestoreapi.com/img/81XH0e8fefL._AC_UY879_t.png",
-    "rating": {
-      "rate": 2.9,
-      "count": 340
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.027Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 17,
+    "rating": {
+      "rate": 3.8,
+      "count": 679
+    },
+    "_id": "6a05634bf3a08e3de0db9328",
     "title": "Rain Jacket Women Windbreaker Striped Climbing Raincoats",
     "price": 39.99,
     "description": "Lightweight perfet for trip or casual wear---Long sleeve with hooded, adjustable drawstring waist design. Button and zipper front closure raincoat, fully stripes Lined and The Raincoat has 2 side pockets are a good size to hold all kinds of things, it covers the hips, and the hood is generous but doesn't overdo it.Attached Cotton Lined Hood with Adjustable Drawstrings give it a real styled look.",
     "category": "women's clothing",
     "image": "https://fakestoreapi.com/img/71HblAHs5xL._AC_UY879_-2t.png",
-    "rating": {
-      "rate": 3.8,
-      "count": 679
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.028Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 18,
+    "rating": {
+      "rate": 4.7,
+      "count": 130
+    },
+    "_id": "6a05634bf3a08e3de0db9329",
     "title": "MBJ Women's Solid Short Sleeve Boat Neck V ",
     "price": 9.85,
     "description": "95% RAYON 5% SPANDEX, Made in USA or Imported, Do Not Bleach, Lightweight fabric with great stretch for comfort, Ribbed on sleeves and neckline / Double stitching on bottom hem",
     "category": "women's clothing",
     "image": "https://fakestoreapi.com/img/71z3kpMAYsL._AC_UY879_t.png",
-    "rating": {
-      "rate": 4.7,
-      "count": 130
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.028Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 19,
+    "rating": {
+      "rate": 4.5,
+      "count": 146
+    },
+    "_id": "6a05634bf3a08e3de0db932a",
     "title": "Opna Women's Short Sleeve Moisture",
     "price": 7.95,
     "description": "100% Polyester, Machine wash, 100% cationic polyester interlock, Machine Wash & Pre Shrunk for a Great Fit, Lightweight, roomy and highly breathable with moisture wicking fabric which helps to keep moisture away, Soft Lightweight Fabric with comfortable V-neck collar and a slimmer fit, delivers a sleek, more feminine silhouette and Added Comfort",
     "category": "women's clothing",
     "image": "https://fakestoreapi.com/img/51eg55uWmdL._AC_UX679_t.png",
-    "rating": {
-      "rate": 4.5,
-      "count": 146
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.028Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 20,
+    "rating": {
+      "rate": 3.6,
+      "count": 145
+    },
+    "_id": "6a05634bf3a08e3de0db932b",
     "title": "DANVOUY Womens T Shirt Casual Cotton Short",
     "price": 12.99,
     "description": "95%Cotton,5%Spandex, Features: Casual, Short Sleeve, Letter Print,V-Neck,Fashion Tees, The fabric is soft and has some stretch., Occasion: Casual/Office/Beach/School/Home/Street. Season: Spring,Summer,Autumn,Winter.",
     "category": "women's clothing",
     "image": "https://fakestoreapi.com/img/61pHAEJ4NML._AC_UX679_t.png",
-    "rating": {
-      "rate": 3.6,
-      "count": 145
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.028Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 21,
+    "rating": {
+      "rate": 4.5,
+      "count": 23
+    },
+    "_id": "6a05634bf3a08e3de0db932c",
     "title": "Safari Seek 45L Laptop Backpack",
     "price": 1700,
     "description": "Safari Seek 45L Laptop Backpack",
     "category": "bags",
     "image": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTNu_G4jR7FV4YiqYPcgCyJs3yGAT7JgO4Qe319ErULS0jIW6jULx5c8X9HUaubrusJAaLwe6NIroiUYiECDRR_khrqcC5x0FOwKhJhcrGznuYdlk7yKasFuQ",
-    "rating": {
-      "rate": 4.5,
-      "count": 23
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.028Z",
+    "updatedAt": "2026-05-19T13:56:12.930Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 2,
+    "status": "active"
   },
   {
-    "id": 22,
+    "rating": {
+      "rate": 4.2,
+      "count": 85
+    },
+    "_id": "6a05634bf3a08e3de0db932d",
     "title": "Gear Aspire 30L Laptop Backpack",
     "price": 1000,
     "description": "Gear Aspire 30L Laptop Backpack",
     "category": "bags",
     "image": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcTlzjBUTR66pBLQXTc18mVZEEeVd0FnclqBmbOsgCFzYcsPFAY99gviWfPXfidll4xZg90SWZsWJ8w0nYTmWeUTYjZD6HXDvYfGKW9EVH-6v3i5eMBo3m0q8w",
-    "rating": {
-      "rate": 4.2,
-      "count": 85
-    }
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.028Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
   },
   {
-    "id": 23,
+    "rating": {
+      "rate": 4.2,
+      "count": 88
+    },
+    "_id": "6a05634bf3a08e3de0db932e",
     "title": "Skybags Brat Backpack",
     "price": 100,
     "description": "Skybags Brat Backpack",
     "category": "bags",
     "image": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSkY0StavdA0hX-C56Fh2FsRCjcxHwoObnHaFZGMRZcL_BkobpnLw_jUUBbzzcFJBAOqskmmVGUXNOFDXFWDuGaFWlHYAdcjVgSFE6K23we8bbtxJ0zBdPKNg",
+    "__v": 0,
+    "createdAt": "2026-05-14T05:53:15.028Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "inStock": true,
+    "isDeleted": false,
+    "stock": 100,
+    "status": "active"
+  },
+  {
     "rating": {
-      "rate": 4.2,
-      "count": 88
-    }
+      "rate": 3.5,
+      "count": 57
+    },
+    "_id": "6a0ac4f70596faee6761a419",
+    "title": "Jack & Jones White Logo Print Baseball Cap",
+    "price": 150,
+    "description": "Jack & Jones White Logo Print Baseball Cap",
+    "category": "caps",
+    "image": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcSZ7Ak7_FvR0WEdK79NO3GYWmqtFlK4bipQvfvTqKSwpX5lSgn8jVGYQcr2ZDyxNG5y9ZfsZDGwIYfGI4mHhoj4qVWv0Z6KSk2gcW238-1Vl6N3VZda0t4CCqU",
+    "inStock": true,
+    "stock": 100,
+    "isDeleted": false,
+    "createdAt": "2026-05-18T07:51:19.795Z",
+    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "__v": 0,
+    "status": "active"
+  },
+  {
+    "rating": {
+      "rate": 3,
+      "count": 42
+    },
+    "_id": "6a0ad2e21c2bb41c6208084a",
+    "title": "Jack & Jones Men's Logo Print Baseball Cap",
+    "price": 750,
+    "description": "Jack & Jones Men's Logo Print Baseball Cap",
+    "category": "caps",
+    "image": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTHudMKG38_K-JX1RCG5_z-fjsmB9YEQMdXZa_nAncc2uEico3BJHz32-Gxda8vfEjkO_1YQqgO-4lB4WnKeBWoXpj58mCGsWhbZMPtM5vp4EnaST5vxN9_1ck",
+    "inStock": false,
+    "stock": 2,
+    "isDeleted": true,
+    "createdAt": "2026-05-18T08:50:42.317Z",
+    "updatedAt": "2026-05-19T10:19:23.821Z",
+    "__v": 0,
+    "status": "active"
+  },
+  {
+    "rating": {
+      "rate": 4.4,
+      "count": 49
+    },
+    "_id": "6a0b1755ed9b7bd5365ac18a",
+    "title": "Puma Unisex-Adult Polyester Cap",
+    "price": 550,
+    "description": "Puma Unisex-Adult Polyester Cap",
+    "category": "caps",
+    "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTntpa5FXLAXrzvP3GU98HL02ITeZl7gcQ0RTqSHcu-Bzr13j7VqI_MTExgjMZ--OTCpxdGol42imSKtTGB18H7TF-hz5EFZ-ohFgcr2VXdxvMWflW_kC9q",
+    "inStock": false,
+    "stock": 5,
+    "status": "active",
+    "isDeleted": true,
+    "createdAt": "2026-05-18T13:42:45.753Z",
+    "updatedAt": "2026-05-19T09:52:21.246Z",
+    "__v": 0
   }
 ]

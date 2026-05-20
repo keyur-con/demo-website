@@ -1,5 +1,22 @@
+require("dotenv").config();
+const cron = require("node-cron");
+const backupDatabase = require("./utils/backupDatabase");
+
+const connectDB = require("./config/db");
+const User = require("./models/User");
+const Product = require("./models/Product");
+const Cart = require("./models/Cart");
+const Order = require("./models/Order");
+
+//const fs = require("fs");
+//const path = require("path");
+
 const express = require('express');
 const cors = require('cors');
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+
+const SECRET = process.env.JWT_SECRET;
 // const products = require("./products.json");
 
 const app = express();
@@ -7,272 +24,398 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-const fs = require("fs");
-const path = require("path");
-const cartsFilePath = path.join(__dirname, "carts.json");
-const productsFilePath = path.join(__dirname, "products.json");
-const ordersFilePath = path.join(__dirname, "orders.json");
+connectDB();
 
-function readCarts() {
-    try {
-        if (!fs.existsSync(cartsFilePath)) {
-            fs.writeFileSync(cartsFilePath, "{}");
-        }
-        const data = fs.readFileSync(cartsFilePath, "utf-8").trim();
-        return data ? JSON.parse(data) : {};
-    } catch (err) {
-        console.log("Error reading carts.json:", err);
-        return {};
-    }
-}
+cron.schedule("*/10 * * * *", async () => {
 
-function writeCarts(carts) {
-    fs.writeFileSync(cartsFilePath, JSON.stringify(carts, null, 2));
-}
+    console.log("Running automatic backup...");
 
-function readProducts() {
-    try {
-        if (!fs.existsSync(productsFilePath)) {
-            fs.writeFileSync(productsFilePath, "[]");
-        }
-        const data = fs.readFileSync(productsFilePath, "utf-8").trim();
-        return data ? JSON.parse(data) : [];
-    } catch (err) {
-        console.log("Error reading products:", err);
-        return [];
-    }
-}
-function writeProducts(products) {
-    fs.writeFileSync(productsFilePath, JSON.stringify(products, null, 2));
-}
-
-function readOrders() {
-    try {
-        if (!fs.existsSync(ordersFilePath)) {
-            fs.writeFileSync(ordersFilePath, JSON.stringify({ orders: [] }, null, 2));
-        }
-        const data = fs.readFileSync(ordersFilePath, "utf-8");
-        return JSON.parse(data);
-    } catch (err) {
-        console.log("Error reading orders:", err);
-        return { orders: [] };
-    }
-}
-
-function writeOrders(data) {
-    fs.writeFileSync(ordersFilePath, JSON.stringify(data, null, 2));
-}
-
-app.post("/checkout", (req, res) => {
-    const { userId, userName, receiverName, email, mobile, address, items, discount } = req.body;
-
-    if (!userId || !userName || !receiverName || !email || !mobile || !address || !items) {
-        return res.status(400).json({ success: false, message: "All fields required" });
-    }
-
-    const products = readProducts(); 
-    const orderItems = [];
-
-    let totalAmount = 0;
-
-    items.forEach(item => {
-        const product = products.find(p => p.id === item.productId);
-
-        if (!product) return;
-
-        const itemTotal = product.price * item.qty;
-
-        totalAmount += itemTotal;
-
-        orderItems.push({
-            productId: product.id,
-            title: product.title,
-            price: product.price,
-            image: product.image,
-            qty: item.qty,
-            total: itemTotal
-        });
-    });
-
-    const discountAmount = ((totalAmount * discount) / 100).toFixed(2);
-    const finalAmount = totalAmount - discountAmount;
-
-    const newOrder = {
-        orderId: "ORD-" + Date.now(),
-        userId,
-        userName,        
-        receiverName,
-        email,
-        mobile,
-        address,
-        items: orderItems,
-        totalAmount,
-        discount,
-        finalAmount,
-        createdAt: new Date().toISOString()
-    };
-
-    const db = readOrders();
-    db.orders.push(newOrder);
-    writeOrders(db);
-
-    res.status(201).json({
-        success: true,
-        message: "Order placed successfully",
-        order: newOrder
-    });
+    await backupDatabase();
 });
 
-app.get("/orders", (req, res) => {
-    const role = req.headers["role"];
+// const cartsFilePath = path.join(__dirname, "carts.json");
+// const productsFilePath = path.join(__dirname, "products.json");
+// const ordersFilePath = path.join(__dirname, "orders.json");
+// const usersFilePath = path.join(__dirname, "users.json");
 
-    if (role !== "admin") {
-        return res.status(403).json({ error: "Admins only" });
-    }
+// function readCarts() {
+//     try {
+//         if (!fs.existsSync(cartsFilePath)) {
+//             fs.writeFileSync(cartsFilePath, "{}");
+//         }
+//         const data = fs.readFileSync(cartsFilePath, "utf-8").trim();
+//         return data ? JSON.parse(data) : {};
+//     } catch (err) {
+//         console.log("Error reading carts.json:", err);
+//         return {};
+//     }
+// }
 
-    const db = readOrders();
-    res.json(db.orders);
-});
+// function writeCarts(carts) {
+//     fs.writeFileSync(cartsFilePath, JSON.stringify(carts, null, 2));
+// }
 
-app.get("/orders/:userId", (req, res) => {
-    const { userId } = req.params;
+// function readProducts() {
+//     try {
+//         if (!fs.existsSync(productsFilePath)) {
+//             fs.writeFileSync(productsFilePath, "[]");
+//         }
+//         const data = fs.readFileSync(productsFilePath, "utf-8").trim();
+//         return data ? JSON.parse(data) : [];
+//     } catch (err) {
+//         console.log("Error reading products:", err);
+//         return [];
+//     }
+// }
+// function writeProducts(products) {
+//     fs.writeFileSync(productsFilePath, JSON.stringify(products, null, 2));
+// }
 
-    const db = readOrders();
+// function readOrders() {
+//     try {
+//         if (!fs.existsSync(ordersFilePath)) {
+//             fs.writeFileSync(ordersFilePath, JSON.stringify({ orders: [] }, null, 2));
+//         }
+//         const data = fs.readFileSync(ordersFilePath, "utf-8");
+//         return JSON.parse(data);
+//     } catch (err) {
+//         console.log("Error reading orders:", err);
+//         return { orders: [] };
+//     }
+// }
 
-    const userOrders = db.orders.filter(order => order.userId == userId);
+// function writeOrders(data) {
+//     fs.writeFileSync(ordersFilePath, JSON.stringify(data, null, 2));
+// }
 
-    res.json(userOrders);
-});
+// function readUsers() {
+//     if(!fs.existsSync(usersFilePath)) {
+//         fs.writeFileSync(usersFilePath, "[]");
+//     }
+//     const data = fs.readFileSync(usersFilePath, "utf-8").trim();
+//     return data ? JSON.parse(data) : [];
+// }
 
-app.get("/products", (req, res) => {
-    const products = readProducts();
-    res.json(products);
-});
+// function writeUsers(users) {
+//     fs.writeFileSync(usersFilePath, JSON.stringify(users, null, 2));
+// }
 
-app.post("/products", (req, res) => {
-    const { title, price, description, category, image, rating } = req.body;
+// function checkAuth(req, res, next) {
+//     const authHeader = req.headers["authorization"];
 
-    if (!title || !price || !description || !category || !image) {
-        return res.status(400).json({ success: false, message: "All fields are required." });
-    }
+//     if (!authHeader) {
+//         return res.status(401).json({ message: "No token" });
+//     }
 
-    const products = readProducts();
+//     const token = authHeader.split(" ")[1];
 
-    const newId =
-        products.length > 0
-            ? Math.max(...products.map(p => p.id)) + 1
-            : 1;
+//     try {
+//         const decoded = jwt.verify(token, SECRET);
+//         req.user = decoded; 
+//         next();
+//     } catch (err) {
+//         return res.status(401).json({ message: "Invalid token" });
+//     }
+// }
 
-    const newProduct = {
-        id: newId,
-        title,
-        price: Number(price),
-        description,
-        category,
-        image,
-        rating: {
-            rate: Number(rating?.rate) || 0,
-            count: Number(rating?.count) || 0
-        }
-    };
+const checkAuth = require("./middleware/checkAuth");
 
-    products.push(newProduct);
-    writeProducts(products);
+const productRoutes = require("./routes/productRoutes");
 
-    res.status(201).json({ success: true, product: newProduct });
-});
+app.use("/products", productRoutes);
 
-app.delete("/products/:id", (req, res) => {
-    const id = Number(req.params.id);
+const authRoutes = require("./routes/authRoutes");
 
-    let products = readProducts();
+app.use("/", authRoutes);
 
-    const index = products.findIndex(p => p.id === id);
+const cartRoutes = require("./routes/cartRoutes");
 
-    if (index === -1) {
-        return res.status(404).json({ success: false, message: "Product not found." });
-    }
+app.use("/cart", cartRoutes);
 
-    const deleted = products.splice(index, 1)[0];
+const orderRoutes = require("./routes/orderRoutes");
 
-    writeProducts(products);
+app.use("/orders", orderRoutes);
 
-    res.json({ success: true, message: `${deleted.title} deleted.` });
-});
 
-app.get("/cart/:userId", (req, res) => {
-    const userId = req.params.userId;
-    const carts = readCarts();
-    res.json(carts[userId] || { items: [] });
-});
 
-app.post("/cart", (req, res) => {
-    const { userId, productId, qty } = req.body;
+// app.post("/checkout", checkAuth, async (req, res) => {
+//     const userId = req.user.userId;
+//     const { receiverName, email, mobile, address, items, discount } = req.body;
 
-    if (!userId || !productId) {
-        return res.status(400).json({ message: "Missing userId or productId" });
-    }
+//     if (!receiverName || !email || !mobile || !address || !items) {
+//         return res.status(400).json({ success: false, message: "All fields required" });
+//     }
+//     try {
 
-    const carts = readCarts();
+//         const tenSecondsAgo = new Date(Date.now() - 10000);
 
-    if (!carts[userId]) {
-        carts[userId] = { items: [] };
-    }
+//         const recentOrders = await Order.find({
+//             userId,
+//             receiverName,
+//             mobile,
+//             createdAt: { $gte: tenSecondsAgo }
+//         });
 
-    const existing = carts[userId].items.find(i => i.productId === productId);
+//         if (recentOrders.length > 0) {
+//             const isDuplicate = recentOrders.some(existingOrder => {
+//                 if (existingOrder.items.length !== items.length) return false;
 
-    if (existing) {
-        existing.qty += qty;
-    } else {
-        carts[userId].items.push({ productId, qty });
-    }
+//                 return items.every(newItem =>
+//                     existingOrder.items.some(oldItem =>
+//                         oldItem.productId.toString() === newItem.productId.toString() &&
+//                         oldItem.qty === newItem.qty
+//                     )
+//                 );
+//             });
 
-    writeCarts(carts);
+//             if (isDuplicate) {
+//                 return res.status(400).json({
+//                     success: false,
+//                     message: "Duplicate order detected. Your order was already placed."
+//                 });
+//             }
+//         }
 
-    res.json({ message: "Cart updated", cart: carts[userId] });
-});
+//         const products = await Product.find();
+//         const orderItems = [];
+//         let totalAmount = 0;
 
-app.put("/cart", (req, res) => {
-    const { userId, productId, qty } = req.body;
+//         items.forEach(item => {
+//             const product = products.find(
+//                 p => p._id.toString() === item.productId.toString()
+//             );
+//             if (!product) return;
+//             const itemTotal = product.price * item.qty;
+//             totalAmount += itemTotal;
+//             orderItems.push({
+//                 productId: product._id,
+//                 title:     product.title,
+//                 price:     product.price,
+//                 image:     product.image,
+//                 qty:       item.qty,
+//                 total:     itemTotal
+//             });
+//         });
 
-    const carts = readCarts();
+//         const discountAmount = parseFloat(((totalAmount * discount) / 100).toFixed(2));
+//         const finalAmount    = parseFloat((totalAmount - discountAmount).toFixed(2));
+//         const user = await User.findById(userId);
 
-    if (!carts[userId]) return res.json({ items: [] });
+//         const newOrder = await Order.create({
+//             orderId:      "ORD-" + Date.now(),
+//             userId,
+//             userName:     user?.username || "Unknown",
+//             receiverName, email, mobile, address,
+//             items:        orderItems,
+//             totalAmount, discount, finalAmount,
+//             status:       "placed"
+//         });
 
-    const item = carts[userId].items.find(i => i.productId === productId);
-    if (item) item.qty = qty;
+//         res.status(201).json({ success: true, order: newOrder });
+//     } catch (err) {
+//         console.log(err);
+//         res.status(500).json({ message: "Server error" });
+//     }
+// });
 
-    writeCarts(carts);
+// app.get("/orders", checkAuth, async (req, res) => {
+//     if (req.user.role !== "admin") {
+//         return res.status(403).json({ error: "Admins only" });
+//     }
+//     try {
+//         const orders = await Order.find().sort({ createdAt: -1 });
+//         res.json(orders);
+//     } catch (err) {
+//         res.status(500).json({ message: "Server error" });
+//     }
+// });
 
-    res.json({ message: "Cart updated", cart: carts[userId] });
-});
+// app.get("/orders/my", checkAuth, async (req, res) => {
+//     try {
+//         const orders = await Order.find({ userId: req.user.userId })
+//                                   .sort({ createdAt: -1 });
+//         res.json(orders);
+//     } catch (err) {
+//         res.status(500).json({ message: "Server error" });
+//     }
+// });
 
-app.delete("/cart", (req, res) => {
-    const { userId, productId } = req.body;
+// app.get("/products", (req, res) => {
+//     const products = readProducts();
+//     res.json(products);
+// });
 
-    const carts = readCarts();
+// app.get("/products", async (req, res) => {
 
-    if (!carts[userId]) return res.json({ items: [] });
+//     try {
 
-    carts[userId].items = carts[userId].items.filter(
-        i => i.productId !== productId
-    );
+//         const products = await Product.find();
 
-    writeCarts(carts);
+//         res.json(products);
 
-    res.json({ message: "Item removed", cart: carts[userId] });
-});
+//     } catch (err) {
 
-app.delete("/cart/clear/:userId", (req, res) => {
-    const userId = req.params.userId;
+//         res.status(500).json({
+//             message: "Server Error"
+//         });
+//     }
+// });
 
-    const carts = readCarts();
-    carts[userId] = { items: [] };
+// app.post("/products", checkAuth , async (req, res) => {
+//     if (req.user.role !== "admin") {
+//         return res.status(403).json({ message: "Admins only" });
+//     }
 
-    writeCarts(carts);
+//     const { title, price, description, category, image, rating } = req.body;
 
-    res.json({ message: "Cart cleared" });
-});
+//     if (!title || !price || !description || !category || !image) {
+//         return res.status(400).json({ success: false, message: "All fields are required." });
+//     }
+
+//     try {
+//         const product = await Product.create({
+//             title,
+//             price: Number(price),
+//             description,
+//             category,
+//             image,
+//             rating: {
+//                 rate: Number(rating?.rate) || 0,
+//                 count: Number(rating?.count) || 0
+//             }
+//         });
+//         res.status(201).json({ success: true, product });
+//     } catch (err) {
+//         res.status(500).json({ message: "Server error" });
+//     }
+// });
+
+// app.delete("/products/:id", checkAuth, async (req, res) => {
+//     if (req.user.role !== "admin") {
+//         return res.status(403).json({ message: "Admins only" });
+//     }
+
+//     try {
+//         const deleted = await Product.findByIdAndDelete(req.params.id);
+//         if (!deleted) return res.status(404).json({ message: "Product not found" });
+//         res.json({ success: true, message: `${deleted.title} deleted` });
+//     } catch (err) {
+//         res.status(500).json({ message: "Server error" });
+//     }
+// });
+
+// app.get("/cart", checkAuth, async (req, res) => {
+//     try {
+//         const cart = await Cart.findOne({ userId: req.user.userId });
+//         res.json(cart || { items: [] });
+//     } catch (err) {
+//         res.status(500).json({ message: "Server error" });
+//     }
+// });
+
+// app.post("/cart", checkAuth, async (req, res) => {
+//     const { productId, qty } = req.body;
+//     const userId = req.user.userId;
+//     try {
+//         let cart = await Cart.findOne({ userId });
+//         if (!cart) cart = await Cart.create({ userId, items: [] });
+
+//         const existing = cart.items.find(
+//             i => i.productId?.toString() === productId?.toString()
+//         );
+//         if (existing) {
+//             existing.qty += qty;
+//         } else {
+//             cart.items.push({ productId, qty });
+//         }
+//         await cart.save();
+//         res.json({ message: "Cart updated", cart });
+//     } catch (err) {
+//         res.status(500).json({ message: "Server error" });
+//     }
+// });
+
+// app.put("/cart", checkAuth, async (req, res) => {
+//     const { productId, qty } = req.body;
+//     try {
+//         const cart = await Cart.findOne({ userId: req.user.userId });
+//         if (!cart) return res.json({ items: [] });
+
+//         const item = cart.items.find(
+//             i => i.productId?.toString() === productId?.toString()
+//         );
+//         if (item) item.qty = qty;
+//         await cart.save();
+//         res.json({ message: "Cart updated", cart });
+//     } catch (err) {
+//         res.status(500).json({ message: "Server error" });
+//     }
+// });
+
+// app.delete("/cart", checkAuth, async (req, res) => {
+//     const { productId } = req.body;
+//     try {
+//         const cart = await Cart.findOne({ userId: req.user.userId });
+//         if (!cart) return res.json({ items: [] });
+
+//         cart.items = cart.items.filter(
+//             i => i.productId?.toString() !== productId?.toString()
+//         );
+//         await cart.save();
+//         res.json({ message: "Item removed", cart });
+//     } catch (err) {
+//         res.status(500).json({ message: "Server error" });
+//     }
+// });
+
+// app.delete("/cart/clear", checkAuth, async (req, res) => {
+//     try {
+//         await Cart.findOneAndUpdate({ userId: req.user.userId }, { items: [] });
+//         res.json({ message: "Cart cleared" });
+//     } catch (err) {
+//         res.status(500).json({ message: "Server error" });
+//     }
+// });
+
+// app.post("/signup", async (req, res) => {
+//     const { username, password } = req.body;
+//     if (!username || !password) {
+//         return res.status(400).json({ message: "Username and password required" });
+//     }
+//     try {
+//         const existing = await User.findOne({ username });
+//         if (existing) return res.status(400).json({ message: "User already exists" });
+
+//         const hashedPassword = await bcrypt.hash(password, 10);
+//         await User.create({ username, password: hashedPassword, role: "user" });
+//         res.json({ success: true, message: "Signup successful" });
+//     } catch (err) {
+//         res.status(500).json({ message: "Server error" });
+//     }
+// });
+
+// app.post("/login", async (req, res) => {
+//     const { username, password } = req.body;
+//     try {
+//         const user = await User.findOne({ username });
+//         if (!user) return res.json({ message: "Invalid user" });
+
+//         const isMatch = await bcrypt.compare(password, user.password);
+//         if (!isMatch) return res.json({ message: "Wrong password" });
+
+//         const token = jwt.sign(
+//             { userId: user._id, role: user.role },
+//             SECRET,
+//             { expiresIn: "7d" }
+//         );
+//         res.json({ token });
+//     } catch (err) {
+//         res.status(500).json({ message: "Server error" });
+//     }
+// });
+
+
+
 
 app.listen(3000, () => {
     console.log("Server is running on http://localhost:3000");
