@@ -50,7 +50,7 @@
     "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png",
     "__v": 0,
     "createdAt": "2026-05-14T05:53:15.026Z",
-    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "updatedAt": "2026-05-21T07:18:39.669Z",
     "inStock": true,
     "isDeleted": false,
     "stock": 99,
@@ -467,10 +467,10 @@
     "category": "caps",
     "image": "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcTHudMKG38_K-JX1RCG5_z-fjsmB9YEQMdXZa_nAncc2uEico3BJHz32-Gxda8vfEjkO_1YQqgO-4lB4WnKeBWoXpj58mCGsWhbZMPtM5vp4EnaST5vxN9_1ck",
     "inStock": false,
-    "stock": 2,
+    "stock": 0,
     "isDeleted": true,
     "createdAt": "2026-05-18T08:50:42.317Z",
-    "updatedAt": "2026-05-19T10:19:23.821Z",
+    "updatedAt": "2026-05-21T10:44:02.573Z",
     "__v": 0,
     "status": "active"
   },
@@ -486,11 +486,49 @@
     "category": "caps",
     "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTntpa5FXLAXrzvP3GU98HL02ITeZl7gcQ0RTqSHcu-Bzr13j7VqI_MTExgjMZ--OTCpxdGol42imSKtTGB18H7TF-hz5EFZ-ohFgcr2VXdxvMWflW_kC9q",
     "inStock": false,
-    "stock": 5,
+    "stock": 2,
     "status": "active",
     "isDeleted": true,
     "createdAt": "2026-05-18T13:42:45.753Z",
-    "updatedAt": "2026-05-19T09:52:21.246Z",
+    "updatedAt": "2026-05-21T12:32:33.398Z",
+    "__v": 0
+  },
+  {
+    "rating": {
+      "rate": 4.8,
+      "count": 10
+    },
+    "_id": "6a0daeccfc52ce287f49c456",
+    "title": "H&M Men's Cotton twill Cap",
+    "price": 750,
+    "description": "H&M Men's Cotton twill Cap",
+    "category": "caps",
+    "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcQIx-Gp0b4Sk1X9F6sP1cB6buHn_SArjONmQlWrzmekU5kcGHoVNeQk0snqU3HwVpQsrwfD1-Ny0ipJd_Nbr7-ulRCbeVWLaJulGJMOnEad3zyXgyJQVHt5yg",
+    "inStock": true,
+    "stock": 10,
+    "status": "active",
+    "isDeleted": false,
+    "createdAt": "2026-05-20T12:53:32.206Z",
+    "updatedAt": "2026-05-21T10:41:19.745Z",
+    "__v": 0
+  },
+  {
+    "rating": {
+      "rate": 4.2,
+      "count": 77
+    },
+    "_id": "6a0ec625fb5c8c2185ae9d0f",
+    "title": "Urban Punk Unisex Original Adjustable Baseball Cap",
+    "price": 150,
+    "description": "Urban Punk Unisex Original Adjustable Baseball Cap",
+    "category": "caps",
+    "image": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcQpPNa1S2HMGdfP7TxbepWIO6RfDkPZsfApZKzNM5-RWpGiWiXDFO3gcXu8SDHWv_F9qzcmulC3dqEVwCUV3MMegZ6SaN6W",
+    "inStock": true,
+    "stock": 100,
+    "status": "active",
+    "isDeleted": false,
+    "createdAt": "2026-05-21T08:45:25.249Z",
+    "updatedAt": "2026-05-21T11:16:19.870Z",
     "__v": 0
   }
 ]

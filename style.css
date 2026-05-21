@@ -1091,3 +1091,33 @@ body.admin-page .stock-input {
     font-size: 1rem;
     max-width: 200px;
 }
+
+
+.deleted-products-section {
+    margin-top: 32px;
+    padding: 24px;
+    background: #fafafa;
+    border: 1px solid rgba(148, 160, 184, 0.4);
+    border-radius: 20px;
+}
+
+.deleted-section-header {
+    margin-bottom: 16px;
+}
+
+.deleted-section-header h3 {
+    color: #8898aa;
+    font-size: 1rem;
+    margin-bottom: 4px;
+}
+
+.deleted-section-subtitle {
+    font-size: 0.82rem;
+    color: #aab0be;
+}
+
+.deleted-product {
+    opacity: 0.75;
+    border-style: dashed;
+    border-color: rgba(148, 160, 184, 0.3);
+}

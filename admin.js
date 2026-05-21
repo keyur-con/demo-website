@@ -6,6 +6,12 @@
 //     window.location.href = "login.html";
 // }
 
+let ordersVisible = false;
+
+const fetchOrdersBtn = document.getElementById("fetchOrdersBtn");
+const ordersWrapper = document.getElementById("ordersWrapper");
+
+
 const token = localStorage.getItem("token");
 
 if (!token) {
@@ -103,13 +109,18 @@ if (backButton) {
 }
 
 async function renderAdminProducts() {
-    const res = await fetch("http://localhost:3000/products");
+    const res = await fetch("http://localhost:3000/products/admin/all", {
+        headers: { "Authorization": "Bearer " + token }
+    });
     const products = await res.json();
 
     const wrapper = document.getElementById("adminWrapper");
     wrapper.innerHTML = "";
 
-    products.forEach(product => {
+    // only show non-deleted products here
+    const activeProducts = products.filter(p => !p.isDeleted);
+
+    activeProducts.forEach(product => {
         const div = document.createElement("div");
         div.className = "admin-product-card";
         div.innerHTML = `
@@ -186,10 +197,99 @@ async function renderAdminProducts() {
 }
 
 
+async function renderDeletedProducts() {
+    const res = await fetch("http://localhost:3000/products/deleted", {
+        headers: { "Authorization": "Bearer " + token }
+    });
+    const data = await res.json();
+    const products = data.products;
+
+    const wrapper = document.getElementById("deletedWrapper");
+    wrapper.innerHTML = "";
+
+    if (!products || products.length === 0) {
+        wrapper.innerHTML = `<p style="color:#888; padding:16px;">No deleted products.</p>`;
+        return;
+    }
+
+    products.forEach(product => {
+        const div = document.createElement("div");
+        div.className = "admin-product-card deleted-product";
+
+        div.innerHTML = `
+            <div style="display:flex; align-items:center; gap:12px; flex:1;">
+                <img src="${product.image}" 
+                     style="width:60px;height:60px;object-fit:contain;border-radius:8px;opacity:0.6;" />
+                <div>
+                    <p style="font-weight:600; color:#888;">${product.title}</p>
+                    <p style="font-size:0.85rem; color:#aaa;">₹${product.price}</p>
+                    <p style="font-size:0.78rem; color:#aaa;">
+                        Category: ${product.category} | 
+                        Stock was: ${product.stock}
+                    </p>
+                    <span style="
+                        display:inline-block;
+                        padding:2px 8px;
+                        background:#f1f4fb;
+                        color:#8898aa;
+                        border-radius:10px;
+                        font-size:0.75rem;
+                        font-weight:600;
+                        margin-top:4px;
+                    ">Removed</span>
+                </div>
+            </div>
+            <button 
+                class="restore-btn" 
+                data-id="${product._id}"
+                style="
+                    padding:8px 16px;
+                    border:none;
+                    border-radius:10px;
+                    background:#e6f4ea;
+                    color:#2d7a3a;
+                    font-weight:600;
+                    cursor:pointer;
+                    font-size:0.85rem;
+                ">
+                Restore
+            </button>
+        `;
+        wrapper.appendChild(div);
+    });
+}
+
+
+
+
 
 document.addEventListener("DOMContentLoaded", () => {
     renderAdminProducts();
+    renderDeletedProducts();
 });
+
+document.getElementById("deletedWrapper").addEventListener("click", async (e) => {
+    if (!e.target.classList.contains("restore-btn")) return;
+
+    const id = e.target.dataset.id;
+
+    const res = await fetch(`http://localhost:3000/products/${id}/restore`, {
+        method: "PATCH",
+        headers: { "Authorization": "Bearer " + token }
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+        alert(`"${data.product.title}" restored successfully!`);
+        // refresh both sections
+        renderAdminProducts();
+        renderDeletedProducts();
+    } else {
+        alert(data.message || "Failed to restore");
+    }
+});
+
 
 document.getElementById("adminWrapper").addEventListener("click", async (e) => {
     if (e.target.classList.contains("delete-btn")) {
@@ -272,31 +372,105 @@ document.getElementById("adminWrapper").addEventListener("click", async (e) => {
 
 });
 
-document.getElementById("fetchOrdersBtn").addEventListener("click", () => {
-    //const role = localStorage.getItem("role");
+// document.getElementById("fetchOrdersBtn").addEventListener("click", () => {
+//     //const role = localStorage.getItem("role");
 
-    fetch ("http://localhost:3000/orders", {
+//     fetch ("http://localhost:3000/orders", {
+//         headers: {
+//             "Authorization": "Bearer " + token
+//         }
+//     })
+//     .then(res => res.json())
+//     .then(data => {
+//         const wrapper = document.getElementById("ordersWrapper");
+//         wrapper.innerHTML = "";
+
+//         if(data.error){
+//             wrapper.innerHTML = `<p>${data.error}</p>`;
+//             return;
+//         }
+//         if(data.length === 0){
+//             wrapper.innerHTML = `<p>No orders found.</p>`;
+//             return;
+//         }
+
+//         data.forEach(order => {
+//             const div = document.createElement("div");
+//             div.className = "order-card";
+//             const itemsHTML = order.items.map(item => `
+//                 <div class="order-item">
+//                     <p><strong>${item.title}</strong></p>
+//                     <p>Qty: ${item.qty}</p>
+//                     <p>Price: ₹${item.price}</p>
+//                     <p>Total: ₹${(item.price * item.qty).toFixed(2)}</p>
+//                 </div>
+//             `).join("");
+
+//             div.innerHTML = `
+//                 <p><strong>Order ID:</strong> ${order.orderId}</p>
+//                 <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
+//                 <p><strong>Account User:</strong> ${order.userName || "N/A" }</p>
+//                 <p><strong>Deliver To:</strong> ${order.receiverName || order.name}</p>
+//                 <p><strong>Email:</strong> ${order.email}</p>
+//                 <p><strong>Mobile:</strong> ${order.mobile}</p>
+//                 <p><strong>Address:</strong> ${order.address}</p>
+
+//                 <p><strong>Items:</strong></p>
+                
+//                 ${itemsHTML}
+
+//                 <hr>
+
+//                 <p><strong>Total Amount:</strong> ₹${order.totalAmount.toFixed(2)}</p>
+//                 <p><strong>Discount:</strong> ${order.discount}%</p>
+//                 <p><strong>Final Amount:</strong> ₹${order.finalAmount.toFixed(2)}</p>
+//                 <hr/>
+//             `;
+//             wrapper.appendChild(div);
+//         });
+//     })
+    
+//     .catch(err => {
+//         document.getElementById("ordersWrapper").innerHTML = 
+//             `<p>Could not connect to server.</p>`;
+//     });
+// });
+
+fetchOrdersBtn.addEventListener("click", () => {
+
+    
+    if (ordersVisible) {
+        ordersWrapper.innerHTML = "";
+        ordersVisible = false;
+        fetchOrdersBtn.textContent = "View Orders";
+        return;
+    }
+
+    
+    fetch("http://localhost:3000/orders", {
         headers: {
             "Authorization": "Bearer " + token
         }
     })
     .then(res => res.json())
     .then(data => {
-        const wrapper = document.getElementById("ordersWrapper");
-        wrapper.innerHTML = "";
 
-        if(data.error){
-            wrapper.innerHTML = `<p>${data.error}</p>`;
+        ordersWrapper.innerHTML = "";
+
+        if (data.error) {
+            ordersWrapper.innerHTML = `<p>${data.error}</p>`;
             return;
         }
-        if(data.length === 0){
-            wrapper.innerHTML = `<p>No orders found.</p>`;
+
+        if (data.length === 0) {
+            ordersWrapper.innerHTML = `<p>No orders found.</p>`;
             return;
         }
 
         data.forEach(order => {
             const div = document.createElement("div");
             div.className = "order-card";
+
             const itemsHTML = order.items.map(item => `
                 <div class="order-item">
                     <p><strong>${item.title}</strong></p>
@@ -309,14 +483,13 @@ document.getElementById("fetchOrdersBtn").addEventListener("click", () => {
             div.innerHTML = `
                 <p><strong>Order ID:</strong> ${order.orderId}</p>
                 <p><strong>Date:</strong> ${new Date(order.createdAt).toLocaleString()}</p>
-                <p><strong>Account User:</strong> ${order.userName || "N/A" }</p>
+                <p><strong>Account User:</strong> ${order.userName || "N/A"}</p>
                 <p><strong>Deliver To:</strong> ${order.receiverName || order.name}</p>
                 <p><strong>Email:</strong> ${order.email}</p>
                 <p><strong>Mobile:</strong> ${order.mobile}</p>
                 <p><strong>Address:</strong> ${order.address}</p>
 
                 <p><strong>Items:</strong></p>
-                
                 ${itemsHTML}
 
                 <hr>
@@ -326,12 +499,16 @@ document.getElementById("fetchOrdersBtn").addEventListener("click", () => {
                 <p><strong>Final Amount:</strong> ₹${order.finalAmount.toFixed(2)}</p>
                 <hr/>
             `;
-            wrapper.appendChild(div);
+
+            ordersWrapper.appendChild(div);
         });
+
+        
+        ordersVisible = true;
+        fetchOrdersBtn.textContent = "Hide Orders";
     })
-    
+
     .catch(err => {
-        document.getElementById("ordersWrapper").innerHTML = 
-            `<p>Could not connect to server.</p>`;
+        ordersWrapper.innerHTML = `<p>Could not connect to server.</p>`;
     });
 });

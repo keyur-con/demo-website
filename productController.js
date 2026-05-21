@@ -46,6 +46,21 @@ async function createProduct(req, res) {
 
     try {
 
+        const parsedStock = Number(stock);
+
+        // validate stock
+        if (
+            stock !== undefined &&
+            (isNaN(parsedStock) || parsedStock < 0)
+        ) {
+            return res.status(400).json({
+                message: "Stock cannot be negative"
+            });
+        }
+
+        const finalStock =
+            stock === undefined ? 100 : parsedStock;
+
         const product = await Product.create({
             title,
             price: Number(price),
@@ -57,9 +72,8 @@ async function createProduct(req, res) {
                 count: Number(rating?.count) || 0
             },
 
-            
-            stock: Number(stock) || 100,
-            inStock: true,
+            stock: finalStock,
+            inStock: finalStock > 0,
             isDeleted: false
         });
 
@@ -95,7 +109,7 @@ async function deleteProduct(req, res) {
                 isDeleted: true,
                 inStock: false
             },
-            { new: true }
+             { returnDocument: "after" }
         );
 
         if (!product) {
@@ -310,20 +324,33 @@ async function restoreProduct(req, res) {
 
     try {
 
-        const product = await Product.findByIdAndUpdate(
-            req.params.id,
-            {
-                isDeleted: false,
-                inStock: true
-            },
-            { new: true }
-        );
+        // const product = await Product.findByIdAndUpdate(
+        //     req.params.id,
+        //     {
+        //         isDeleted: false,
+        //         inStock: true
+        //     },
+        //     { new: true }
+        // );
+
+        // if (!product) {
+        //     return res.status(404).json({
+        //         message: "Product not found"
+        //     });
+        // }
+
+        const product = await Product.findById(req.params.id);
 
         if (!product) {
             return res.status(404).json({
                 message: "Product not found"
             });
         }
+
+        product.isDeleted = false;
+        product.inStock = product.stock > 0;
+
+        await product.save();
 
         res.json({
             success: true,
@@ -339,7 +366,23 @@ async function restoreProduct(req, res) {
     }
 }
 
+async function getDeletedProducts(req, res) {
+    try {
+        const deletedProducts = await Product.find({
+            isDeleted: true
+        });
 
+        res.json({
+            success: true,
+            products: deletedProducts
+        });
+    } catch (err) {
+        res.status(500).json({
+            success: false,
+            message: "Failed to fetch deleted products"
+        });
+    }
+}
 
 
 
@@ -351,5 +394,6 @@ module.exports = {
     updateStock,
     getAdminProducts,
     restoreProduct,
-    updateProductStatus
+    updateProductStatus,
+    getDeletedProducts
 };

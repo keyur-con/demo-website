@@ -52,5 +52,14 @@
     "__v": 0,
     "createdAt": "2026-05-14T05:53:37.176Z",
     "updatedAt": "2026-05-14T05:53:37.176Z"
+  },
+  {
+    "_id": "6a0d9f4947ab4ae9ca110128",
+    "username": "demo user",
+    "password": "$2b$10$DIwZ78ZG.BVhstICyrODQOiqHlLiSxS6OPgbueSxbT7jdkjNNncA2",
+    "role": "user",
+    "createdAt": "2026-05-20T11:47:21.526Z",
+    "updatedAt": "2026-05-20T11:47:21.526Z",
+    "__v": 0
   }
 ]

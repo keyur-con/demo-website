@@ -333,5 +333,33 @@
     "createdAt": "2026-05-20T06:45:27.811Z",
     "updatedAt": "2026-05-20T06:45:27.811Z",
     "__v": 0
+  },
+  {
+    "_id": "6a0dbd7b49e59b024dfda47e",
+    "orderId": "ORD-1779285371923",
+    "userId": "6a056361793e01d720dec992",
+    "userName": "Keyur shah",
+    "receiverName": "xyz",
+    "email": "xyz@gmail.com",
+    "mobile": "7897897897",
+    "address": "xyz house",
+    "items": [
+      {
+        "productId": "6a0b1755ed9b7bd5365ac18a",
+        "title": "Puma Unisex-Adult Polyester Cap",
+        "price": 550,
+        "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcTntpa5FXLAXrzvP3GU98HL02ITeZl7gcQ0RTqSHcu-Bzr13j7VqI_MTExgjMZ--OTCpxdGol42imSKtTGB18H7TF-hz5EFZ-ohFgcr2VXdxvMWflW_kC9q",
+        "qty": 1,
+        "total": 550,
+        "_id": "6a0dbd7b49e59b024dfda47f"
+      }
+    ],
+    "totalAmount": 550,
+    "discount": 10,
+    "finalAmount": 495,
+    "status": "placed",
+    "createdAt": "2026-05-20T13:56:11.929Z",
+    "updatedAt": "2026-05-20T13:56:11.929Z",
+    "__v": 0
   }
 ]
