@@ -159,7 +159,7 @@ async function toggleStock(req, res) {
         }
 
         await product.save();
-
+        
         res.json({
             success: true,
             message: `Marked as ${product.inStock ? "In Stock" : "Out of Stock"}`,

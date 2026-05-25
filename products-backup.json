@@ -8,11 +8,11 @@
     "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
     "price": 109.95,
     "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
-    "category": "men's clothing",
+    "category": "bags",
     "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
     "__v": 0,
     "createdAt": "2026-05-14T05:53:15.013Z",
-    "updatedAt": "2026-05-19T13:40:26.041Z",
+    "updatedAt": "2026-05-22T10:03:21.391Z",
     "inStock": true,
     "isDeleted": false,
     "stock": 5,
@@ -31,11 +31,11 @@
     "image": "https://fakestoreapi.com/img/71-3HjGNDUL._AC_SY879._SX._UX._SY._UY_t.png",
     "__v": 0,
     "createdAt": "2026-05-14T05:53:15.026Z",
-    "updatedAt": "2026-05-20T07:42:22.830Z",
-    "inStock": true,
+    "updatedAt": "2026-05-21T13:35:53.070Z",
+    "inStock": false,
     "isDeleted": false,
     "stock": 3,
-    "status": "active"
+    "status": "unavailable"
   },
   {
     "rating": {
@@ -69,10 +69,10 @@
     "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_t.png",
     "__v": 0,
     "createdAt": "2026-05-14T05:53:15.026Z",
-    "updatedAt": "2026-05-18T10:54:03.335Z",
+    "updatedAt": "2026-05-22T07:28:07.246Z",
     "inStock": true,
     "isDeleted": false,
-    "stock": 100,
+    "stock": 2,
     "status": "active"
   },
   {
@@ -392,11 +392,11 @@
     "image": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTNu_G4jR7FV4YiqYPcgCyJs3yGAT7JgO4Qe319ErULS0jIW6jULx5c8X9HUaubrusJAaLwe6NIroiUYiECDRR_khrqcC5x0FOwKhJhcrGznuYdlk7yKasFuQ",
     "__v": 0,
     "createdAt": "2026-05-14T05:53:15.028Z",
-    "updatedAt": "2026-05-19T13:56:12.930Z",
-    "inStock": true,
+    "updatedAt": "2026-05-21T13:48:50.205Z",
+    "inStock": false,
     "isDeleted": false,
-    "stock": 2,
-    "status": "active"
+    "stock": 0,
+    "status": "out_of_stock"
   },
   {
     "rating": {
@@ -470,7 +470,7 @@
     "stock": 0,
     "isDeleted": true,
     "createdAt": "2026-05-18T08:50:42.317Z",
-    "updatedAt": "2026-05-21T10:44:02.573Z",
+    "updatedAt": "2026-05-22T06:52:33.791Z",
     "__v": 0,
     "status": "active"
   },

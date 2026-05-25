@@ -117,7 +117,7 @@ async function renderAdminProducts() {
     const wrapper = document.getElementById("adminWrapper");
     wrapper.innerHTML = "";
 
-    // only show non-deleted products here
+    
     const activeProducts = products.filter(p => !p.isDeleted);
 
     activeProducts.forEach(product => {
@@ -282,7 +282,7 @@ document.getElementById("deletedWrapper").addEventListener("click", async (e) =>
 
     if (data.success) {
         alert(`"${data.product.title}" restored successfully!`);
-        // refresh both sections
+        
         renderAdminProducts();
         renderDeletedProducts();
     } else {

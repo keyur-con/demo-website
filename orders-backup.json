@@ -361,5 +361,61 @@
     "createdAt": "2026-05-20T13:56:11.929Z",
     "updatedAt": "2026-05-20T13:56:11.929Z",
     "__v": 0
+  },
+  {
+    "_id": "6a0f0d4231500dfbb59839b4",
+    "orderId": "ORD-1779371330123",
+    "userId": "6a056361793e01d720dec992",
+    "userName": "Keyur shah",
+    "receiverName": "Keyur",
+    "email": "k@gmail.com",
+    "mobile": "1111111111",
+    "address": "Keyur House",
+    "items": [
+      {
+        "productId": "6a05634bf3a08e3de0db932c",
+        "title": "Safari Seek 45L Laptop Backpack",
+        "price": 1700,
+        "image": "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTNu_G4jR7FV4YiqYPcgCyJs3yGAT7JgO4Qe319ErULS0jIW6jULx5c8X9HUaubrusJAaLwe6NIroiUYiECDRR_khrqcC5x0FOwKhJhcrGznuYdlk7yKasFuQ",
+        "qty": 2,
+        "total": 3400,
+        "_id": "6a0f0d4231500dfbb59839b5"
+      }
+    ],
+    "totalAmount": 3400,
+    "discount": 50,
+    "finalAmount": 1700,
+    "status": "placed",
+    "createdAt": "2026-05-21T13:48:50.132Z",
+    "updatedAt": "2026-05-21T13:48:50.132Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a100587cb319e25e71b0be1",
+    "orderId": "ORD-1779434887167",
+    "userId": "6a056361793e01d720dec992",
+    "userName": "Keyur shah",
+    "receiverName": "b",
+    "email": "b@gmail.com",
+    "mobile": "7777777777",
+    "address": "b house",
+    "items": [
+      {
+        "productId": "6a05634bf3a08e3de0db931b",
+        "title": "Mens Casual Slim Fit",
+        "price": 15.99,
+        "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_t.png",
+        "qty": 2,
+        "total": 31.98,
+        "_id": "6a100587cb319e25e71b0be2"
+      }
+    ],
+    "totalAmount": 31.98,
+    "discount": 50,
+    "finalAmount": 15.99,
+    "status": "placed",
+    "createdAt": "2026-05-22T07:28:07.170Z",
+    "updatedAt": "2026-05-22T07:28:07.170Z",
+    "__v": 0
   }
 ]

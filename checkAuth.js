@@ -17,7 +17,7 @@ function checkAuth(req, res, next) {
     try {
 
         const decoded = jwt.verify(token, SECRET);
-
+        // console.log("Decoded token:", decoded);
         req.user = decoded;
 
         next();

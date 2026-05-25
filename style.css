@@ -1083,7 +1083,7 @@ body.admin-page .stock-input {
 }
 
 .checkout-btn:disabled{
-    opacity: 0.7;
+    
     cursor: not-allowed;
 }
 
