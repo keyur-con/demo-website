@@ -417,5 +417,145 @@
     "createdAt": "2026-05-22T07:28:07.170Z",
     "updatedAt": "2026-05-22T07:28:07.170Z",
     "__v": 0
+  },
+  {
+    "_id": "6a156532515bab64cb3b0c6f",
+    "orderId": "ORD-1779787058242",
+    "userId": "6a056361793e01d720dec992",
+    "userName": "Keyur shah",
+    "receiverName": "alex",
+    "email": "abc@gmail.com",
+    "mobile": "1234567890",
+    "address": "fbfrbn",
+    "items": [
+      {
+        "productId": "6a05634bf3a08e3de0db931a",
+        "title": "Mens Cotton Jacket",
+        "price": 55.99,
+        "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png",
+        "qty": 99,
+        "total": 5543.01,
+        "_id": "6a156532515bab64cb3b0c70"
+      }
+    ],
+    "totalAmount": 5543.01,
+    "discount": 0,
+    "finalAmount": 5543.01,
+    "status": "placed",
+    "createdAt": "2026-05-26T09:17:38.244Z",
+    "updatedAt": "2026-05-26T09:17:38.244Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a15679ab54dfde40981e126",
+    "orderId": "ORD-1779787674995",
+    "userId": "6a056361793e01d720dec992",
+    "userName": "Keyur shah",
+    "receiverName": "alex",
+    "email": "abc@gmail.com",
+    "mobile": "9876543210",
+    "address": "ghm",
+    "items": [
+      {
+        "productId": "6a05634af3a08e3de0db9318",
+        "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+        "price": 109.95,
+        "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+        "qty": 1,
+        "total": 109.95,
+        "_id": "6a15679ab54dfde40981e127"
+      }
+    ],
+    "totalAmount": 109.95,
+    "discount": 0,
+    "finalAmount": 109.95,
+    "status": "placed",
+    "createdAt": "2026-05-26T09:27:54.998Z",
+    "updatedAt": "2026-05-26T09:27:54.998Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a158311e5ac985f6547a8c8",
+    "orderId": "ORD-1779794705248",
+    "userId": "6a056361793e01d720dec992",
+    "userName": "Keyur shah",
+    "receiverName": "alex",
+    "email": "abc@gmail.com",
+    "mobile": "9876543210",
+    "address": "asdef",
+    "items": [
+      {
+        "productId": "6a05634bf3a08e3de0db931a",
+        "title": "Mens Cotton Jacket",
+        "price": 55.99,
+        "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png",
+        "qty": 1,
+        "total": 55.99,
+        "_id": "6a158311e5ac985f6547a8c9"
+      }
+    ],
+    "totalAmount": 55.99,
+    "discount": 0,
+    "finalAmount": 55.99,
+    "status": "placed",
+    "createdAt": "2026-05-26T11:25:05.255Z",
+    "updatedAt": "2026-05-26T11:25:05.255Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a158368e5ac985f6547a8f2",
+    "orderId": "ORD-1779794792406",
+    "userId": "6a056361793e01d720dec994",
+    "userName": "user1",
+    "receiverName": "bbb",
+    "email": "xyz@gmail.com",
+    "mobile": "7897897897",
+    "address": "dgnyn",
+    "items": [
+      {
+        "productId": "6a05634bf3a08e3de0db931b",
+        "title": "Mens Casual Slim Fit",
+        "price": 15.99,
+        "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_t.png",
+        "qty": 2,
+        "total": 31.98,
+        "_id": "6a158368e5ac985f6547a8f3"
+      }
+    ],
+    "totalAmount": 31.98,
+    "discount": 0,
+    "finalAmount": 31.98,
+    "status": "placed",
+    "createdAt": "2026-05-26T11:26:32.407Z",
+    "updatedAt": "2026-05-26T11:26:32.407Z",
+    "__v": 0
+  },
+  {
+    "_id": "6a168fa024976a57202c2e89",
+    "orderId": "ORD-1779863456767",
+    "userId": "6a056361793e01d720dec992",
+    "userName": "Keyur shah",
+    "receiverName": "Test User",
+    "email": "abc@gmail.com",
+    "mobile": "1234567890",
+    "address": "test",
+    "items": [
+      {
+        "productId": "6a05634af3a08e3de0db9318",
+        "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+        "price": 109.95,
+        "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
+        "qty": 4,
+        "total": 439.8,
+        "_id": "6a168fa024976a57202c2e8a"
+      }
+    ],
+    "totalAmount": 439.8,
+    "discount": 10,
+    "finalAmount": 395.82,
+    "status": "placed",
+    "createdAt": "2026-05-27T06:30:56.770Z",
+    "updatedAt": "2026-05-27T06:30:56.770Z",
+    "__v": 0
   }
 ]

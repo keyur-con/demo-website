@@ -1,61 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Panel — ShopWave</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body class="admin-page">
+
+  
+  <nav class="navbar">
+    <div class="navbar-brand">
+      ShopWave<span class="brand-dot"></span>
+      <span style="font-size:0.7rem;font-family:'DM Sans',sans-serif;font-weight:600;background:var(--amber-pale);color:var(--amber);padding:2px 8px;border-radius:var(--radius-pill);margin-left:4px;">Admin</span>
+    </div>
+    <div class="navbar-actions">
+      <button id="backButton" class="nav-btn nav-btn-primary">← Back to Products</button>
+    </div>
+  </nav>
+
+  <div class="admin-layout">
+
     <div class="admin-header">
-        <h2>Admin Panel</h2>
-        <button id="backButton" class="top-btn" type="button">Back to Products</button>
+      <h2>Admin Panel</h2>
     </div>
 
-    <section class="admin-products-section">
-        <h3>Existing Products</h3>
-        <div id="adminWrapper"></div>
-    </section>
+    
+    <div class="admin-section">
+      <h3>Existing Products</h3>
+      <div id="adminWrapper"></div>
+    </div>
 
-    <section class="deleted-products-section">
-        <div class="deleted-section-header">
-            <h3>Removed Products</h3>
-            <p class="deleted-section-subtitle">
-                These products are hidden from users. Restore them to make them visible again.
-            </p>
-        </div>
-        <div id="deletedWrapper"></div>
-    </section>
+    
+    <div class="deleted-products-section">
+      <div class="deleted-section-header">
+        <h3>Removed Products</h3>
+        <p class="deleted-section-subtitle">These products are hidden from users. Restore them to make them visible again.</p>
+      </div>
+      <div id="deletedWrapper"></div>
+    </div>
 
+    
+    <div class="admin-section">
+      <div class="admin-orders-header">
+        <h3 style="margin:0;border:none;padding:0">Customer Orders</h3>
+        <button id="fetchOrdersBtn">View All Orders</button>
+      </div>
+      <div id="ordersWrapper"></div>
+    </div>
 
-    <section class="admin-orders-section">
-        <div class="admin-orders-header">
-            <h3>Customer Orders</h3>
-            <button id="fetchOrdersBtn">View All Orders</button>
-        </div>
+    
+    <div class="admin-section">
+      <h3>Add New Product</h3>
 
-        <div id="ordersWrapper"></div>
-    </section>
+      <input id="title"       placeholder="Product title" />
+      <input id="price"       type="number" placeholder="Price (₹)" />
+      <input id="description" placeholder="Description" />
+      <input id="category"    placeholder="Category" />
+      <input id="image"       placeholder="Image URL" />
+      <input id="rate"        type="number" step="0.1" placeholder="Rating (0 – 5)" />
+      <input id="count"       type="number" placeholder="Rating count" />
+      <input id="stock"       type="number" placeholder="Stock quantity" min="0" />
 
-    <section class="admin-form">
-        <h3>Add New Product</h3>
-        <input id="title" placeholder="Title" />
-        <input id="price" type="number" placeholder="Price" />
-        <input id="description" placeholder="Description" />
-        <input id="category" placeholder="Category" />
-        <input id="image" placeholder="Image URL" />
+      <button id="addProduct">+ Add Product</button>
+      <p id="msg"></p>
+    </div>
 
-        <!-- Rating fields -->
-        <input id="rate" type="number" step="0.1" placeholder="Rating (0-5)" />
-        <input id="count" type="number" placeholder="Rating Count" />
+  </div>
 
-        <input id="stock" type="number" placeholder="Stock Quantity" min="0"/>
-
-        <button id="addProduct">Add Product</button>
-
-        <p id="msg"></p>
-    </section>
-
-    <script src="admin.js"></script>
+  <!-- <script src="admin.js"></script> -->
+   <script src="../admin.js"></script>
 </body>
 </html>

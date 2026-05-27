@@ -1,24 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login — ShopWave</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="login-page">
-  <form id="loginForm">
-    <input type="text" id="username" placeholder="Enter username" required />
-    <input type="password" id="password" placeholder="Enter password" required />
-    <button type="submit">Login</button>
-    <p>
-      Don't have an account?
-      <a href="signup.html">Signup</a>
-    </p>
-  </form>
+<body class="auth-page">
 
-  <p id="error"></p>
-  <script src="login.js"></script>
+  <div class="auth-split">
+
+    <!-- LEFT PANEL -->
+    <div class="auth-left">
+      <div class="auth-brand">Shop<span>Wave</span></div>
+
+      <h1 class="auth-headline">
+        Welcome<br>back to your<br><em>favourite</em> store.
+      </h1>
+      <p class="auth-subtext">
+        Sign in to continue browsing thousands of curated products, track your orders, and enjoy a personalised shopping experience.
+      </p>
+
+      <div class="auth-features">
+        <div class="auth-feature">
+          <div class="auth-feature-icon">🛒</div>
+          Seamless cart sync across devices
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon">📦</div>
+          Real-time order tracking
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon">🎟️</div>
+          Exclusive member-only coupons
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL -->
+    <div class="auth-right">
+      <div class="auth-form-header">
+        <h2>Sign in</h2>
+        <p>Enter your credentials to continue</p>
+      </div>
+
+      <form id="loginForm">
+        <div class="form-field">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="your_username" required autocomplete="username" />
+        </div>
+
+        <div class="form-field">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" required autocomplete="current-password" />
+        </div>
+
+        <button type="submit" class="auth-submit-btn">Sign In →</button>
+      </form>
+
+      <p id="error" class="auth-error"></p>
+
+      <p class="auth-redirect" style="margin-top:20px;">
+        Don't have an account? <a href="signup.html">Create one</a>
+      </p>
+    </div>
+
+  </div>
+
+  <!-- <script src="login.js"></script> -->
+   <script src="../login.js"></script>
 </body>
 </html>
-

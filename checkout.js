@@ -1,46 +1,31 @@
-// if (localStorage.getItem("isLoggedIn") !== "true") {
-//     window.location.href = "login.html";
-// }
 let isProcessing = false;
-
-const placeOrderBtn = document.getElementById("placeOrder");
-
 const token = localStorage.getItem("token");
 
-if (!token) {
-    window.location.href = "login.html";
-}
+if (!token) { window.location.href = "login.html"; }
 
 const checkoutWrapper = document.getElementById("checkoutWrapper");
-const finalSummary = document.getElementById("finalSummary");
+const finalSummary    = document.getElementById("finalSummary");
+const placeOrderBtn   = document.getElementById("placeOrder");
 
-// const userName = localStorage.getItem("user");
-// const userId = localStorage.getItem("userId");
-
-function parseJwt(token) {
-    return JSON.parse(atob(token.split('.')[1]));
-}
-
+function parseJwt(t) { return JSON.parse(atob(t.split('.')[1])); }
 const decoded = parseJwt(token);
-const userId = decoded.userId;
-let cartData = [];
+const userId  = decoded.userId;
+
+let cartData    = [];
 let allProducts = [];
-let discount = 0;
+let discount    = 0;
 
 async function loadCheckoutData() {
-    
-    const prodRes = await fetch("http://localhost:3000/products");
-    allProducts = await prodRes.json();
+    // const prodRes   = await fetch("http://localhost:3000/products");
+    // allProducts     = await prodRes.json();
 
-    
-    const cartRes = await fetch("http://localhost:3000/cart", {
-        headers: {
-            Authorization: "Bearer " + token
-        }
-    });
-    const cart = await cartRes.json();
+    const prodRes   = await fetch("http://localhost:3000/products?limit=1000");
+    const prodData  = await prodRes.json();
+    allProducts     = prodData.products;
 
-    
+    const cartRes   = await fetch("http://localhost:3000/cart", { headers: { Authorization: "Bearer " + token } });
+    const cart      = await cartRes.json();
+
     cartData = cart.items.map(item => {
         const product = allProducts.find(p => p._id.toString() === item.productId.toString());
         if (!product) return null;
@@ -50,11 +35,11 @@ async function loadCheckoutData() {
     renderCheckout();
 }
 
-function renderCheckout(){
+function renderCheckout() {
     checkoutWrapper.innerHTML = "";
 
-    if(cartData.length === 0){
-        checkoutWrapper.innerHTML = "<p>Cart is empty</p>";
+    if (cartData.length === 0) {
+        checkoutWrapper.innerHTML = `<p style="color:var(--ink-40);font-size:0.9rem;text-align:center;padding:24px;">Your cart is empty. <a href="index.html" style="color:var(--amber)">Go shopping →</a></p>`;
         return;
     }
 
@@ -63,8 +48,11 @@ function renderCheckout(){
         div.innerHTML = `
             <div class="checkout-item">
                 <img src="${item.image}" alt="${item.title}" class="checkout-img" />
-                <p>${item.title} x ${item.quantity}</p>
-                <p>₹${item.price * item.quantity}</p>
+                <div class="checkout-item-info">
+                    <div class="checkout-item-title">${item.title}</div>
+                    <div class="checkout-item-qty">Qty: ${item.quantity}</div>
+                </div>
+                <div class="checkout-item-price">₹${(item.price * item.quantity).toFixed(2)}</div>
             </div>
         `;
         checkoutWrapper.appendChild(div);
@@ -73,141 +61,123 @@ function renderCheckout(){
     updateSummary();
 }
 
+function updateSummary() {
+    const subtotal       = cartData.reduce((a, i) => a + i.price * i.quantity, 0);
+    const discountAmount = (subtotal * discount) / 100;
+    const total          = subtotal - discountAmount;
+
+    finalSummary.innerHTML = `
+        <h3>Order Summary</h3>
+        <div class="final-summary-row">
+            <span>Subtotal</span>
+            <span>₹${subtotal.toFixed(2)}</span>
+        </div>
+        ${discount > 0 ? `
+        <div class="final-summary-row discount">
+            <span>Coupon (${discount}% off)</span>
+            <span>−₹${discountAmount.toFixed(2)}</span>
+        </div>` : ""}
+        <div class="final-summary-divider"></div>
+        <div class="final-summary-total">
+            <span class="label">Total</span>
+            <span class="amount">₹${total.toFixed(2)}</span>
+        </div>
+        ${discount === 0 ? `<p style="font-size:0.75rem;color:var(--ink-20);margin-top:12px;">Have a coupon? Enter it on the left.</p>` : ""}
+    `;
+}
 
 document.getElementById("applyCoupon").addEventListener("click", () => {
     const code = document.getElementById("couponInput").value.trim().toUpperCase();
 
-    if(code === "SAVE10"){
+    if (code === "SAVE10") {
         discount = 10;
-    } 
-    else if(code === "SAVE20"){
-        discount = 20;
-    }
-    else if(code === "SAVE30"){
-        discount = 30;
-    }
-    else if(code === "SAVE50"){
-        discount = 50;
-    }
-    else if(code === "FLASH40"){
-        discount = 40;
-    }
-    else if(code === "BONUS15"){
-        discount = 15;
-    }
-    else if(code === "SPECIAL25"){
-        discount = 25;
-    }
-    else if(code === "DEAL35"){
-        discount = 35;
-    }
-    else {
-        alert("Invalid Coupon");
+        showToast("Coupon applied! 10% off ✓", "success");
+    } else {
         discount = 0;
+        showToast("Invalid coupon code", "error");
     }
-
     updateSummary();
 });
 
-
-function updateSummary(){
-    const total = cartData.reduce((acc, item) => acc + item.price * item.quantity, 0);
-
-    const discountAmount = (total * discount) / 100;
-    const finalAmount = total - discountAmount;
-
-    finalSummary.innerHTML = `
-        <div class="final-summary">
-            <p>Total: ₹${total.toFixed(2)}</p>
-            <p>Discount: ${discount}%</p>
-            <p>Final Amount: ₹${finalAmount.toFixed(2)}</p>
-        </div>
-    `;
+function showToast(message, type = "info") {
+    const existing = document.querySelector(".toast");
+    if (existing) existing.remove();
+    const toast = document.createElement("div");
+    toast.className = `toast ${type}`;
+    const icons = { success: "✓", error: "✕", info: "→" };
+    toast.innerHTML = `<span>${icons[type]}</span><span>${message}</span>`;
+    document.body.appendChild(toast);
+    setTimeout(() => {
+        toast.style.animation = "toastOut 0.3s ease both";
+        setTimeout(() => toast.remove(), 300);
+    }, 2800);
 }
 
-
-loadCheckoutData();
-
-document.getElementById("placeOrder").addEventListener("click", async () => {
+placeOrderBtn.addEventListener("click", async () => {
     if (isProcessing) return;
-    isProcessing = true;
 
-    const name = document.getElementById("receiverName").value.trim();
-    const email = document.getElementById("email").value.trim();
-    const mobile = document.getElementById("mobile").value.trim();
-    const address = document.getElementById("address").value.trim();
-    const error1 = document.getElementById("formError");
+    const receiverName = document.getElementById("receiverName").value.trim();
+    const email        = document.getElementById("email").value.trim();
+    const mobile       = document.getElementById("mobile").value.trim();
+    const address      = document.getElementById("address").value.trim();
+    const formError    = document.getElementById("formError");
 
-    error1.textContent = "";
+    formError.textContent = "";
 
-    if(!name || !email || !mobile || !address){
-        error1.textContent = "Please fill in all the fields.";
+    if (!receiverName || !email || !mobile || !address) {
+        formError.textContent = "Please fill in all shipping details.";
+        return;
+    }
+    if (!/^\d{10}$/.test(mobile)) {
+        formError.textContent = "Enter a valid 10-digit mobile number.";
         return;
     }
 
-    if(!email.includes("@") || !email.includes(".")){
-        error1.textContent = "Please enter a valid email.";
-        return;
-    }
-
-    if(mobile.length !== 10 || isNaN(mobile)){
-        error1.textContent = "Please enter a valid 10-digit mobile number.";
-        return;
-    }
-    // console.log("All good! Ready to save the order.");
-
+    isProcessing         = true;
     placeOrderBtn.disabled = true;
-    placeOrderBtn.textContent = "Placing Order..."; 
-
-
-    const order = {
-        receiverName: name,
-        email,
-        mobile,
-        address,
-        discount,
-        items: cartData.map(item => ({
-            productId: item._id,
-            qty: item.quantity
-        }))
-    };
+    placeOrderBtn.textContent = "Placing order…";
 
     try {
+        const subtotal       = cartData.reduce((a, i) => a + i.price * i.quantity, 0);
+        const discountAmount = (subtotal * discount) / 100;
+        const finalAmount    = subtotal - discountAmount;
+
         const res = await fetch("http://localhost:3000/orders/checkout", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": "Bearer " + token
-            },
-            body: JSON.stringify(order)
+            headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+            body: JSON.stringify({
+                items: cartData.map(i => ({
+                    productId: i._id,
+                    title: i.title,
+                    image: i.image,
+                    qty: i.quantity,
+                    price: i.price,
+                    total: i.price * i.quantity
+                })),
+                receiverName, email, mobile, address,
+                totalAmount: subtotal,
+                discount,
+                discountAmount,
+                finalAmount
+            })
         });
 
-        const data = await res.json();
-
-        if (data.success) {
-            await fetch("http://localhost:3000/cart/clear", {
-                method: "DELETE",
-                headers: {
-                    "Authorization": "Bearer " + token
-                }
-            });
-
-            alert("Order placed! Your Order ID is: " + data.order.orderId);
-            window.location.href = "index.html";
+        if (res.ok) {
+            showToast("Order placed successfully! 🎉", "success");
+            setTimeout(() => { window.location.href = "orders.html"; }, 1200);
         } else {
+            const err = await res.json();
+            formError.textContent = err.message || "Failed to place order.";
             isProcessing = false;
-            error1.innerText = data.message;
-            placeOrderBtn.disabled = false;
-            placeOrderBtn.textContent = "Place Order";
+            placeOrderBtn.disabled   = false;
+            placeOrderBtn.innerHTML  = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Place Order`;
         }
-
-    } catch (err) {
+    } catch {
+        formError.textContent = "Network error. Please try again.";
         isProcessing = false;
-        error1.innerText = "Could not connect to server. Make sure backend is running.";
-        placeOrderBtn.disabled = false;
-        placeOrderBtn.textContent = "Place Order";
+        placeOrderBtn.disabled   = false;
+        placeOrderBtn.innerHTML  = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg> Place Order`;
     }
-    
-
-    
 });
+
+loadCheckoutData();

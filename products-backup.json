@@ -12,10 +12,10 @@
     "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_t.png",
     "__v": 0,
     "createdAt": "2026-05-14T05:53:15.013Z",
-    "updatedAt": "2026-05-22T10:03:21.391Z",
+    "updatedAt": "2026-05-27T06:31:41.080Z",
     "inStock": true,
     "isDeleted": false,
-    "stock": 5,
+    "stock": 10,
     "status": "active"
   },
   {
@@ -50,11 +50,11 @@
     "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_t.png",
     "__v": 0,
     "createdAt": "2026-05-14T05:53:15.026Z",
-    "updatedAt": "2026-05-21T07:18:39.669Z",
-    "inStock": true,
+    "updatedAt": "2026-05-26T11:25:05.218Z",
+    "inStock": false,
     "isDeleted": false,
-    "stock": 99,
-    "status": "active"
+    "stock": 0,
+    "status": "out_of_stock"
   },
   {
     "rating": {
@@ -69,11 +69,11 @@
     "image": "https://fakestoreapi.com/img/71YXzeOuslL._AC_UY879_t.png",
     "__v": 0,
     "createdAt": "2026-05-14T05:53:15.026Z",
-    "updatedAt": "2026-05-22T07:28:07.246Z",
-    "inStock": true,
+    "updatedAt": "2026-05-26T11:26:32.401Z",
+    "inStock": false,
     "isDeleted": false,
-    "stock": 2,
-    "status": "active"
+    "stock": 0,
+    "status": "out_of_stock"
   },
   {
     "rating": {

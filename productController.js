@@ -1,21 +1,97 @@
 const Product = require("../models/Product");
 
-async function getProducts(req, res) {
+// async function getProducts(req, res) {
 
-    try {
+//     try {
 
         
-        const products = await Product.find({
-            isDeleted: false
-        });
+//         const products = await Product.find({
+//             isDeleted: false
+//         });
 
-        res.json(products);
+//         res.json(products);
+
+//     } catch (err) {
+
+//         res.status(500).json({
+//             message: "Server Error"
+//         });
+//     }
+// }
+
+async function getProducts(req, res) {
+    try {
+
+        // --- 1. PAGINATION params from URL query ---
+        const page  = parseInt(req.query.page)  || 1;
+        const limit = parseInt(req.query.limit) || 20;
+        const skip  = (page - 1) * limit;
+
+        // --- 2. BUILD FILTER QUERY ---
+        const query = { isDeleted: false };
+
+        // Search — only if search param exists
+        // if (req.query.search && req.query.search.trim() !== "") {
+        //     query.title = {
+        //         $regex: req.query.search.trim(),
+        //         $options: "i"   // case insensitive
+        //     };
+        // }
+
+        if (req.query.search && req.query.search.trim() !== "") {
+            const searchRegex = {
+                $regex: req.query.search.trim(),
+                $options: "i"
+            };
+            query.$or = [
+                { title:       searchRegex },
+                { description: searchRegex },
+                { category:    searchRegex }
+            ];
+        }
+
+        // Category filter
+        // if (req.query.category && req.query.category.trim() !== "") {
+        //     query.category = req.query.category.trim();
+        // }
+
+        if (req.query.categories && req.query.categories.trim() !== "") {
+            const categoryList = req.query.categories.split(",").map(c => c.trim());
+            query.category = { $in: categoryList };
+        }
+
+        // Price range
+        if (req.query.minPrice || req.query.maxPrice) {
+            query.price = {};
+            if (req.query.minPrice) query.price.$gte = Number(req.query.minPrice);
+            if (req.query.maxPrice) query.price.$lte = Number(req.query.maxPrice);
+        }
+
+        // Minimum rating
+        if (req.query.minRating) {
+            query["rating.rate"] = { $gte: Number(req.query.minRating) };
+        }
+
+        // --- 3. EXECUTE QUERY with pagination ---
+        const products = await Product.find(query)
+            .skip(skip)
+            .limit(limit);
+
+        // --- 4. COUNT total matching docs for pagination info ---
+        const totalProducts = await Product.countDocuments(query);
+        const totalPages    = Math.ceil(totalProducts / limit);
+
+        // --- 5. SEND RESPONSE ---
+        res.json({
+            products,
+            currentPage:   page,
+            totalPages,
+            totalProducts,
+            hasMore:       page < totalPages
+        });
 
     } catch (err) {
-
-        res.status(500).json({
-            message: "Server Error"
-        });
+        res.status(500).json({ message: "Server Error" });
     }
 }
 
@@ -311,7 +387,6 @@ async function getAdminProducts(req, res) {
         });
     }
 }
-
 
 
 async function restoreProduct(req, res) {

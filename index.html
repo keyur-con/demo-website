@@ -1,61 +1,134 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Page</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ShopWave — Discover Everything</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>Shopping Section</h1>
 
-    <div id="filterbar" class="filterbar">
-        <input type="text" id="searchInput" placeholder="Search for products...">
-
-        <div id="filterOptions">
-            <div class="filter-group">
-                <label>Min Price</label>
-                <input type="number" id="minPrice" placeholder="0" min="0" />
-            </div>
-
-            <div class="filter-group">
-                <label>Max Price</label>
-                <input type="number" id="maxPrice" placeholder="0" min="0" />
-            </div>
-
-            <div class="filter-group">
-                <label>Min Rating</label>
-                <select id="minRating">
-                    <option value="0">Any</option>
-                    <option value="1">1+</option>
-                    <option value="2">2+</option>
-                    <option value="3">3+</option>
-                    <option value="4">4+</option>
-                </select>
-
-                
-
-            </div>
-            <div id="categoryButtons"></div>
-                
-                
-
-                <button id="clearFilters">Clear Filters</button>
-        </div>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      ShopWave<span class="brand-dot"></span>
     </div>
 
-    <div id="mainWrapper">
-        <div id="productWrapper">
-        
+    <!-- <div class="navbar-search">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Search products, categories…" />
+    </div> -->
 
-        </div>
-        <div id="cartWrapper">
-        
-
-        </div>
-
+    <div class="navbar-search">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="Search products, categories…" />
+      <button class="search-clear" id="searchClear" style="display:none">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
     </div>
 
-    <script src="app.js"></script>
+
+    <div class="navbar-actions" id="navActions">
+      <!-- injected by app.js -->
+    </div>
+  </nav>
+
+  <!-- HERO BANNER -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="hero-eyebrow">New arrivals every week</div>
+      <h1 class="hero-title">Everything you need,<br><span>all in one place.</span></h1>
+      <p class="hero-subtitle">Browse thousands of products across fashion, electronics, home goods and more — curated for quality.</p>
+      <button class="hero-cta" onclick="document.getElementById('mainWrapper').scrollIntoView({behavior:'smooth'})">
+        Shop Now
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
+        </svg>
+      </button>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num">10k+</div>
+          <div class="hero-stat-label">Products</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">50k+</div>
+          <div class="hero-stat-label">Happy Customers</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">4.8★</div>
+          <div class="hero-stat-label">Avg Rating</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-decorative">
+      <div class="hero-tag">
+        <div class="hero-tag-icon">🚚</div>
+        <div class="hero-tag-text">Free Delivery<br>on orders ₹500+</div>
+      </div>
+      <div class="hero-tag">
+        <div class="hero-tag-icon">🔄</div>
+        <div class="hero-tag-text">Easy Returns<br>within 30 days</div>
+      </div>
+      <div class="hero-tag">
+        <div class="hero-tag-icon">🔒</div>
+        <div class="hero-tag-text">Secure<br>Checkout</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FILTER BAR -->
+  <div class="filter-bar">
+    <span class="filter-label">Filter</span>
+    <div class="filter-divider"></div>
+
+    <div style="display:flex;align-items:center;gap:6px;">
+      <span style="font-size:0.78rem;color:var(--ink-40)">₹ Min</span>
+      <input type="number" id="minPrice" placeholder="0" min="0" class="filter-input" style="width:80px" />
+    </div>
+
+    <div style="display:flex;align-items:center;gap:6px;">
+      <span style="font-size:0.78rem;color:var(--ink-40)">₹ Max</span>
+      <input type="number" id="maxPrice" placeholder="Any" min="0" class="filter-input" style="width:80px" />
+    </div>
+
+    <div style="display:flex;align-items:center;gap:6px;">
+      <span style="font-size:0.78rem;color:var(--ink-40)">Rating</span>
+      <select id="minRating" class="filter-select">
+        <option value="0">Any</option>
+        <option value="1">1★+</option>
+        <option value="2">2★+</option>
+        <option value="3">3★+</option>
+        <option value="4">4★+</option>
+      </select>
+    </div>
+
+    <div class="filter-divider"></div>
+
+    <div id="categoryButtons"></div>
+
+    <button id="clearFilters">✕ Clear</button>
+  </div>
+
+  <!-- MAIN CONTENT -->
+  <div id="mainWrapper">
+    <div id="productWrapper">
+      <!-- products rendered by app.js -->
+    </div>
+
+    <aside>
+      <div id="cartWrapper">
+        <!-- cart rendered by app.js -->
+      </div>
+    </aside>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>

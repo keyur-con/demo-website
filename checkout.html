@@ -1,43 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout Page</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout — ShopWave</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-    <h2>Checkout</h2>
+<body class="checkout-page">
 
-    <div id="checkoutWrapper"></div>
-
-    <div class="coupon-section">
-        <input type="text" id="couponInput" placeholder="Enter your coupon code" />
-        <button id="applyCoupon">Apply</button>
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="navbar-brand">
+      ShopWave<span class="brand-dot"></span>
     </div>
+    <div style="display:flex;align-items:center;gap:8px;">
+      <button class="nav-btn" onclick="window.location.href='index.html'">
+        ← Back to Shop
+      </button>
+    </div>
+  </nav>
 
-    <div id="finalSummary"></div>
+  <!-- CHECKOUT LAYOUT -->
+  <div class="checkout-layout">
 
+    <!-- MAIN COLUMN -->
+    <div class="checkout-main">
 
-    <div class="shipping-form">
-        <h3>Shipping Details</h3>
+      <!-- Order items -->
+      <div class="checkout-section">
+        <div class="checkout-section-title">
+          <span class="step-num">1</span>
+          Review Your Order
+        </div>
+        <div id="checkoutWrapper"></div>
+      </div>
 
-        <label>Receiver's Name</label>
-        <input type="text" id="receiverName" placeholder="Full name" />
+      <!-- Coupon -->
+      <div class="coupon-section">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--ink-20)" stroke-width="2" style="flex-shrink:0">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/><line x1="1" y1="10" x2="23" y2="10"/>
+        </svg>
+        <input type="text" id="couponInput" placeholder="Have a coupon code? Enter here…" />
+        <button id="applyCoupon">Apply</button>
+      </div>
 
-        <label>Email</label>
-        <input type="email" id="email" placeholder="your@email.com" />
+      <!-- Shipping -->
+      <div class="shipping-form">
+        <h3>
+          <span class="step-num">2</span>
+          Shipping Details
+        </h3>
+
+        <label>Receiver's Full Name</label>
+        <input type="text" id="receiverName" placeholder="John Doe" />
+
+        <label>Email Address</label>
+        <input type="email" id="email" placeholder="you@example.com" />
 
         <label>Mobile Number</label>
         <input type="tel" id="mobile" placeholder="10-digit number" maxlength="10" />
 
         <label>Delivery Address</label>
-        <textarea id="address" rows="3" placeholder="House no., Street, City, Pincode"></textarea>
+        <textarea id="address" rows="3" placeholder="House no., Street, Area, City, Pincode"></textarea>
 
         <p id="formError"></p>
 
-        <button id="placeOrder">Place Order</button>
+        <button id="placeOrder">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+          Place Order
+        </button>
+      </div>
+
     </div>
-    <script src="checkout.js"></script>
+
+    <!-- SIDEBAR -->
+    <div class="checkout-sidebar">
+      <div id="finalSummary"></div>
+    </div>
+
+  </div>
+
+  <script src="checkout.js"></script>
 </body>
 </html>

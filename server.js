@@ -1,6 +1,6 @@
 require("dotenv").config();
 const cron = require("node-cron");
-const backupDatabase = require("../utils/backupDatabase");
+const backupDatabase = require("./utils/backupDatabase");
 
 const connectDB = require("./config/db");
 const User = require("./models/User");

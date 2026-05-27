@@ -1,4 +1,5 @@
 const Cart = require("../models/Cart");
+const Product = require("../models/Product");
 
 async function getCart(req, res) {
     try {
@@ -18,6 +19,22 @@ async function addToCart(req, res) {
     const { productId, qty } = req.body;
     const userId = req.user.userId;
     try {
+
+        if (!qty || qty <= 0) {
+            return res.status(400).json({
+                message: "Invalid quantity"
+            });
+        }
+
+        const product = await Product.findById(productId);
+
+        if (!product) {
+            return res.status(404).json({
+                message: "Product not found"
+            });
+        }
+
+
         let cart = await Cart.findOne({ userId });
         if (!cart) {
             cart = await Cart.create({
@@ -30,6 +47,15 @@ async function addToCart(req, res) {
                 item.productId?.toString() ===
                 productId?.toString()
         );
+        const totalQty = existing ? existing.qty + qty : qty;
+
+        if (totalQty > product.stock) {
+            return res.status(400).json({
+                message: `only ${product.stock} items available`
+            });
+        }
+
+
         if (existing) {
             existing.qty += qty;
         } else {

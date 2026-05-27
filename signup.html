@@ -1,29 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Signup</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Account — ShopWave</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="auth-page">
 
-<div class="auth-container">
-    <div class="auth-box">
-        <h2>Create Account</h2>
+  <div class="auth-split">
 
-        <input id="username" placeholder="Enter Username" />
-        <input id="password" type="password" placeholder="Enter Password" />
+    <!-- LEFT PANEL -->
+    <div class="auth-left">
+      <div class="auth-brand">Shop<span>Wave</span></div>
 
-        <button id="signupBtn">Signup</button>
+      <h1 class="auth-headline">
+        Start your<br>shopping<br><em>journey today.</em>
+      </h1>
+      <p class="auth-subtext">
+        Join thousands of happy shoppers. Create your free account in seconds and unlock access to exclusive deals.
+      </p>
 
-        <p id="error" class="auth-error"></p>
-
-        <p class="auth-redirect">
-            Already have an account?
-            <a href="login.html">Login</a>
-        </p>
+      <div class="auth-features">
+        <div class="auth-feature">
+          <div class="auth-feature-icon">⚡</div>
+          Set up in under 30 seconds
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon">🔒</div>
+          Your data is safe and encrypted
+        </div>
+        <div class="auth-feature">
+          <div class="auth-feature-icon">🎁</div>
+          Use code SAVE10 for 10% off
+        </div>
+      </div>
     </div>
-</div>
 
-<script src="signup.js"></script>
+    <!-- RIGHT PANEL -->
+    <div class="auth-right">
+      <div class="auth-form-header">
+        <h2>Create account</h2>
+        <p>It's free and takes less than a minute</p>
+      </div>
+
+      <div class="auth-form">
+        <div class="form-field">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="choose_a_username" autocomplete="username" />
+        </div>
+
+        <div class="form-field">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="••••••••" autocomplete="new-password" />
+        </div>
+
+        <button id="signupBtn" class="auth-submit-btn">Create Account →</button>
+      </div>
+
+      <p id="error" class="auth-error" style="margin-top:12px;"></p>
+
+      <p class="auth-redirect" style="margin-top:16px;">
+        Already have an account? <a href="login.html">Sign in</a>
+      </p>
+    </div>
+
+  </div>
+
+  <!-- <script src="signup.js"></script> -->
+   <script src="../signup.js"></script>
 </body>
 </html>
